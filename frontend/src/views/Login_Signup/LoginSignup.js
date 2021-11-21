@@ -8,7 +8,7 @@ function LoginSignup({ isLogIn }) {
 
     return (
         <Center>
-        <Box>
+        <Box bg='green' w={{base:'90%', md:'60%'}} >
             {
                 isLogIn
                 ?   <Heading align='center'>Log In</Heading>
