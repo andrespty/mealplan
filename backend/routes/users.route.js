@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const verifyJWT = require('../middleware/verifyJWT')
 
+const JWT_time = 86400
+// const JWT_time = 10
+
 // Get all users
 router.route('/').get((req, res) => {
     console.log(req.baseUrl + req.route.path)
@@ -25,17 +28,17 @@ router.route('/login').post(async (request, response) => {
         bcrypt.compare(user.password, dbUser.password)
         .then( isValid => {
             if (isValid){
+                let payload = dbUser._doc
+                delete payload.password
+                console.log(payload)
                 
-                const payload = {id: dbUser._id, email: dbUser.email}
-
-                jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 86400}, (error, token) => {
+                jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: JWT_time}, (error, token) => {
                     if (error) return response.json({message: error, success:false})
-                    let loggedUser = dbUser._doc
-                    delete loggedUser.password
+                    
                     return response.json({
                         success: true,
                         token: "Bearer " + token,
-                        user:{...loggedUser}
+                        user:{...payload}
                     })
                 })
             }
@@ -89,6 +92,18 @@ router.route('/signup').post(async (request, response) => {
         response.json({error: 'Error occured: ' + error.message,
             message:'User already exists',
             success:false,
+        })
+    })
+})
+
+router.route('/validation').post(verifyJWT, (request, response) => {
+    console.log(request.user)
+    jwt.sign(request.user, process.env.JWT_SECRET, {expiresIn: JWT_time}, (error, token) => {
+        if (error) return response.json({message: error, success:false})
+        return response.json({
+            success: true,
+            token: "Bearer " + token,
+            user:{...request.user}
         })
     })
 })
