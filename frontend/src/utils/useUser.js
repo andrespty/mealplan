@@ -1,4 +1,5 @@
 import { useReducer, useEffect } from "react"
+import { validate_refresh_user } from "./FetchFunctions"
 
 const useUser = () => {
     
@@ -6,7 +7,17 @@ const useUser = () => {
 
     useEffect(() => {
         if (localStorage.getItem('token')){
-            console.log('Must fetch user')
+            validate_refresh_user()
+            .then(res => {
+                console.log(res)
+                if (res.success){
+                    localStorage.setItem('token', res.token)
+                    setUser({type:'login', user:res.user})
+                }
+                else{
+                    setUser({type:'logout'})
+                }
+            })
         }
     }, [])
 

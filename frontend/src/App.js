@@ -23,7 +23,6 @@ function App() {
                     <Route path='/' element={<MealPrep />} />
                 </Routes>
             </BrowserRouter>
-            <button onClick={() => console.log(user)}>Clic</button>
             </UserContext.Provider>
         </Box>
     )

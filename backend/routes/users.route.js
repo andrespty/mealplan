@@ -30,8 +30,6 @@ router.route('/login').post(async (request, response) => {
             if (isValid){
                 let payload = dbUser._doc
                 delete payload.password
-                console.log(payload)
-                
                 jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: JWT_time}, (error, token) => {
                     if (error) return response.json({message: error, success:false})
                     
@@ -96,8 +94,9 @@ router.route('/signup').post(async (request, response) => {
     })
 })
 
+// Refresh and validate token
 router.route('/validation').post(verifyJWT, (request, response) => {
-    console.log(request.user)
+    console.log(request.baseUrl + request.route.path)
     jwt.sign(request.user, process.env.JWT_SECRET, {expiresIn: JWT_time}, (error, token) => {
         if (error) return response.json({message: error, success:false})
         return response.json({
