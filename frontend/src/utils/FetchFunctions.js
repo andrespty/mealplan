@@ -17,3 +17,9 @@ export async function validate_refresh_user(){
 
     return await response.data
 }
+
+export async function create_food(){
+    const response = await axios.post(`${fetch_url}/`)
+
+    return await response.data
+}
