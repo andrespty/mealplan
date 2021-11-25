@@ -3,21 +3,34 @@ import { create_food } from "../../../utils/FetchFunctions"
 
 const useCreateFood = (userID) => {
     const [ info, setInfo ] = useReducer(reducer, initial_info)
-    const [ isLoading, setIsLoading ] = useState(false)
+    const [ state, setState ] = useState({
+        isLoading: false,
+        isSuccess:false,
+        alert:false,
+        status:'success',
+    })
 
-    const submit = () => {
-        setIsLoading(true)
+    const submit = (e) => {
+        e.preventDefault()
+        setState(state => ({...state, isLoading:true}))
         
         console.log(info)
         let body = {...info, creator:userID}
         create_food({body: body})
         .then(res => {
             console.log(res)
-            setIsLoading(false)
+            setState({isLoading:false, isSuccess:true, status:'success', alert:true})
+            setInfo(initial_info)
+            setTimeout(() => setState(state => ({...state, alert:false})), 5000)
+        })
+        .catch(() => {
+            setState({isLoading:false, status:'error', isSuccess: false, alert:true})
+            setInfo(initial_info)
+            setTimeout(() => setState(state => ({...state, alert:false})), 5000)
         })
     }
 
-    return { info, setInfo, isLoading, submit }
+    return { info, setInfo, state, submit }
 }
 
 export default useCreateFood

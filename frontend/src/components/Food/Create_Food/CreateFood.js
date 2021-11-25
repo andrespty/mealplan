@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import useCreateFood from './useCreateFood'
-import { Box, Input, Select, Flex, Stack, Heading, Divider, Button, Spacer } from '@chakra-ui/react'
+import { Box, Input, Select, Flex, Stack, Heading, Divider, Button, Spacer, Collapse,
+Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from '@chakra-ui/react'
 import InputNumber from '../../Inputs/InputNumber'
 import InputField from '../../Inputs/InputField'
 import { UserContext } from '../../../App'
@@ -9,17 +10,7 @@ function CreateFood() {
 
     const { user } = useContext(UserContext)
 
-    const { info, setInfo, isLoading, submit } = useCreateFood(user._id)
-
-    console.log(user._id === 0)
-
-    if ( user._id === 0 ){
-        return (
-            <Box>
-                Please log in
-            </Box>
-        )
-    }
+    const { info, setInfo, state, submit } = useCreateFood(user._id)
 
     return (
         <Box>
@@ -27,8 +18,22 @@ function CreateFood() {
                 <Flex direction='row' alignItems='center' >
                     <Heading size='md'>Food Information</Heading>
                     <Spacer />
-                    <Button colorScheme='green' size='sm' isLoading={isLoading} type='submit' >Create Food</Button>
+                    <Button colorScheme='green' size='sm' isLoading={state.isLoading} type='submit' >Create Food</Button>
                 </Flex>
+
+                <Collapse in={state.alert} >
+                    <Alert status={state.status} my={2} borderRadius={5} >
+                        <AlertIcon/>
+                        <AlertTitle>{state.isSuccess ? 'Success!' : 'Error!'}</AlertTitle>
+                        <AlertDescription>
+                            {
+                                state.isSuccess
+                                ?   'Food created successfully!'
+                                :   'An error occured while creating the food'
+                            }
+                        </AlertDescription>
+                    </Alert>
+                </Collapse>
 
                 <InputField label='Food Name' isRequired={true}>
                     <Input placeholder='ex. Chicken' value={info.name} onChange={(e) => setInfo({name:e.target.value})} />
