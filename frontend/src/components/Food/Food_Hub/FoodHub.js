@@ -3,6 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, Box } from "@chakra-ui/react"
 import ListMyFood from '../List_Food/ListMyFood'
 import SearchFood from '../Search_Food/SearchFood'
 import CreateFood from '../Create_Food/CreateFood'
+import NeedsLogIn from '../../../utils/NeedsLogIn'
 
 function FoodHub() {
     return (
@@ -16,9 +17,23 @@ function FoodHub() {
                 </TabList>
                 
                 <TabPanels>
-                    <TabPanel><ListMyFood /></TabPanel>
-                    <TabPanel><SearchFood /></TabPanel>
-                    <TabPanel><CreateFood /></TabPanel>
+
+                    <TabPanel>
+                        <NeedsLogIn>
+                            <ListMyFood />
+                        </NeedsLogIn>
+                    </TabPanel>
+
+                    <TabPanel>
+                        <SearchFood />
+                    </TabPanel>
+
+                    <TabPanel>
+                        <NeedsLogIn>
+                            <CreateFood />
+                        </NeedsLogIn>
+                    </TabPanel>
+
                 </TabPanels>
             </Tabs>
 

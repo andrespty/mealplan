@@ -4,9 +4,9 @@ let Food = require('../models/food.model')
 router.route('/').get((request, response) => {
     console.log(request.baseUrl + request.route.path)
 
-    Food.find()
-    .then(foods => response.json(foods))
-    .catch(error => response.status(400).json({error:error}))
+    Food.find().select('-__v')
+    .then(foods => response.json({success:true, data:foods}))
+    .catch(error => response.json({success:false, message:'There was an error'}))
 })
 
 router.route('/').post((request, response) => {
@@ -17,8 +17,18 @@ router.route('/').post((request, response) => {
     const new_food = new Food(food)
 
     new_food.save()
-    .then(food => response.status(200).json({success: true, object: food}))
-    .catch(error => response.status(400).json({error:error}))
+    .then(food => response.status(200).json({success: true, data: food}))
+    .catch(error => response.json({success:false, message:'There was an error creating the item'}))
+})
+
+router.route('/:foodID').get((request, response) => {
+    console.log(request.baseUrl + request.route.path)
+
+    const { foodID } = request.params
+
+    Food.find({_id:foodID}).populate('creator', '-createdAt -updatedAt -__v -password').select('-__v')
+    .then(data => response.json({success:true, data:data}))
+    .catch(error => response.json({success:false, message:`No object found with ID: ${foodID}`}))
 })
 
 router.route('/users/:creatorID').get((request, response) => {
@@ -27,10 +37,8 @@ router.route('/users/:creatorID').get((request, response) => {
     const {creatorID} = request.params
 
     Food.find({creator: creatorID}).select('-creator -__v')
-    .then(foods_created => response.json({success:true, foods_created: foods_created}))
-    .catch(error => response.status(400).json({error:error}))
-
-    
+    .then(data => response.json({success:true, data: data}))
+    .catch(error => response.status(400).json({error:error})) 
 })
 
 module.exports = router
