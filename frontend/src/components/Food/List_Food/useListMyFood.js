@@ -6,6 +6,7 @@ const useListMyFood = (userID) => {
     const [ list, setList ] = useState([])
     const [ loading, setLoading ] = useState(true)
     const [ search, setSearch ] = useState([])
+    const [ selected, setSelected ] = useState([])
 
     useEffect(() => {
         setLoading(true)
@@ -23,7 +24,18 @@ const useListMyFood = (userID) => {
         setSearch(search_array(e.target.value, search_list))
     }
 
-    return { search, loading, handle_search }
+    const handle_selection = (data) => {
+        
+        if (typeof(data) === 'string'){
+            setSelected(state => state.filter(obj => obj._id !== data))
+        }
+        else{
+            
+            setSelected(state => [...state, data])
+        }
+    }
+
+    return { search, loading, handle_search, selected, handle_selection }
 }
 
 export default useListMyFood
