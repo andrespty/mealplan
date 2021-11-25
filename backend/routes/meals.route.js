@@ -9,6 +9,7 @@ router.route('/').get((request, response) => {
     .catch(error => response.status(400).json({error: error}))
 })
 
+// Create Meal
 router.route('/').post((request, response) => {
     const meal = request.body
 

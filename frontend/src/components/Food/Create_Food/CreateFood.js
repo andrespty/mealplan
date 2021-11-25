@@ -13,7 +13,7 @@ function CreateFood() {
             <Flex direction='row' alignItems='center' >
                 <Heading size='md'>Food Information</Heading>
                 <Spacer />
-                <Button colorScheme='green' size='sm' onClick={submit} >Create Food</Button>
+                <Button colorScheme='green' size='sm' isLoading={isLoading} onClick={submit} >Create Food</Button>
             </Flex>
 
             <InputField label='Food Name' isRequired={true}>
@@ -73,11 +73,11 @@ export default CreateFood
 const serving_sizes = [
     {
         value: 'cups',
-        name: 'Cups'
+        name: 'Cup(s)'
     },
     {
-        value: 'cups',
-        name: 'Cups'
+        value: 'ounces',
+        name: 'Oz.'
     },
     {
         value: 'cups',

@@ -1,12 +1,22 @@
-import { useReducer, useState } from "react"
+import { useReducer, useState, useContext } from "react"
+import { create_food } from "../../../utils/FetchFunctions"
+import { UserContext } from '../../../App'
 
 const useCreateFood = () => {
     const [ info, setInfo ] = useReducer(reducer, initial_info)
     const [ isLoading, setIsLoading ] = useState(false)
+    const { user } = useContext(UserContext)
 
     const submit = () => {
-        // setIsLoading(true)
+        setIsLoading(true)
+        
         console.log(info)
+        let body = {...info, creator:user._id}
+        create_food({body: body})
+        .then(res => {
+            console.log(res)
+            setIsLoading(false)
+        })
     }
 
     return { info, setInfo, isLoading, submit }
