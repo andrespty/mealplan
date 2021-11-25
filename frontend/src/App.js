@@ -15,8 +15,8 @@ function App() {
     return (
         <Box>
             <UserContext.Provider value={{ user, setUser }}>
-            <Header />
             <BrowserRouter>
+            <Header />
                 <Routes>
                     <Route path='/login' element={<LoginSignup isLogIn={true} />} />
                     <Route path='/signup' element={<LoginSignup isLogIn={false} />} />
