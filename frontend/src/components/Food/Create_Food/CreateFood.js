@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import useCreateFood from './useCreateFood'
 import { Box, Input, Select, Flex, Stack, Heading, Divider, Button, Spacer, Collapse,
-Alert, AlertIcon, AlertTitle, AlertDescription, CloseButton } from '@chakra-ui/react'
+Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
 import InputNumber from '../../Inputs/InputNumber'
 import InputField from '../../Inputs/InputField'
 import { UserContext } from '../../../App'

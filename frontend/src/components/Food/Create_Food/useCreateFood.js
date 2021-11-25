@@ -21,12 +21,12 @@ const useCreateFood = (userID) => {
             console.log(res)
             setState({isLoading:false, isSuccess:true, status:'success', alert:true})
             setInfo(initial_info)
-            setTimeout(() => setState(state => ({...state, alert:false})), 5000)
+            setTimeout(() => setState(state => ({...state, alert:false})), 1000)
         })
         .catch(() => {
             setState({isLoading:false, status:'error', isSuccess: false, alert:true})
             setInfo(initial_info)
-            setTimeout(() => setState(state => ({...state, alert:false})), 5000)
+            setTimeout(() => setState(state => ({...state, alert:false})), 1000)
         })
     }
 

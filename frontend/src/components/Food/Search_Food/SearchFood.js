@@ -1,11 +1,11 @@
 import React from 'react'
-import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
-import { SearchIcon } from '@chakra-ui/icons'
-
+import { Box } from '@chakra-ui/react'
+import SearchInput from '../../Inputs/SearchInput'
 function SearchFood() {
     return (
         <Box>
-            <SearchInput />
+            
+            <SearchInput placeholder='Search foods' />
 
             Search Food
         </Box>
@@ -13,12 +13,3 @@ function SearchFood() {
 }
 
 export default SearchFood
-
-const SearchInput = () => {
-    return (
-        <InputGroup>
-            <InputLeftElement children={<SearchIcon />}  />
-            <Input placeholder='Search food'/>
-        </InputGroup>
-    )
-}
