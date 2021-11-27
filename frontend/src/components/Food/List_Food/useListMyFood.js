@@ -1,41 +1,56 @@
 import { useEffect, useState } from "react"
 import { get_my_food } from "../../../utils/FetchFunctions"
 import { search_array } from "../../../utils/UtilityFunctions"
-const useListMyFood = (userID) => {
 
-    const [ list, setList ] = useState([])
-    const [ loading, setLoading ] = useState(true)
-    const [ search, setSearch ] = useState([])
-    const [ selected, setSelected ] = useState([])
+
+const useListMyFood = (userID, selected_items) => {
+
+    const [ state, setState ] = useState({
+        list:[],
+        loading:true,
+        search:[],
+        selected:selected_items
+    })
 
     useEffect(() => {
-        setLoading(true)
         get_my_food({userID: userID})
         .then(json => {
             console.log(json.data)
-            setList(json.data)
-            setSearch(json.data)
-            setLoading(false)
+            setState(prev => ({
+                ...prev,
+                list:json.data,
+                search:json.data,
+                loading:false
+            }))
         })
     }, [])
 
     const handle_search = (e) => {
-        let search_list = [...list]
-        setSearch(search_array(e.target.value, search_list))
+        let search_list = [...state.list]
+        setState(prev => ({
+            ...prev,
+            search: search_array(e.target.value, search_list)
+        }))
     }
 
-    const handle_selection = (data) => {
-        
-        if (typeof(data) === 'string'){
-            setSelected(state => state.filter(obj => obj._id !== data))
+    const handle_select = (data) => {
+        let add = !state.selected.includes(data)
+        if (add){
+            setState(prev => ({
+                ...prev,
+                selected: [...prev.selected, data]
+            }))    
         }
         else{
-            
-            setSelected(state => [...state, data])
+            setState(prev => ({
+                ...prev,
+                selected: prev.selected.filter(obj => obj !== data)
+            }))
         }
     }
 
-    return { search, loading, handle_search, selected, handle_selection }
+
+    return { state, handle_search, setState, handle_select }
 }
 
 export default useListMyFood

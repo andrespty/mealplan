@@ -1,21 +1,36 @@
 import React, { useContext } from 'react'
-import { Box, Button, Flex, Spacer } from '@chakra-ui/react'
+import { Box, Button, Flex, Spacer, CheckboxGroup, Checkbox } from '@chakra-ui/react'
 import useListMyFood from './useListMyFood'
 import { UserContext } from '../../../App'
 import SearchInput from '../../Inputs/SearchInput'
 import FoodCard from './FoodCard'
 import WaitLoading from '../../../utils/WaitLoading'
+import { MealContext } from '../../Create_Meal/CreateMeal'
 
-function ListMyFood() {
+function ListMyFood({ close }) {
 
     const { user } = useContext(UserContext)
+    const { meal_info, setMealInfo } = useContext(MealContext)
 
-    const { search, loading, handle_search, selected, handle_selection } = useListMyFood(user._id)    
+    const { state, handle_search, handle_select, setState } = useListMyFood(user._id, meal_info.items)    
 
-    const log = () => console.log(selected)
+    const add_food = () => {
+        close()
+        let food_list = state.list.filter(food => state.selected.includes(food._id))
+        console.log(food_list)
+        setMealInfo({items: state.selected, recipe: food_list})
+    }
+
+    const handle_check = (e) => {
+        console.log(e)
+        setState(prev => ({
+            ...prev,
+            selected: e
+        }))
+    }
 
     return (
-        <WaitLoading loading={loading}>
+        <WaitLoading loading={state.loading}>
             <Box>
 
                 <SearchInput placeholder='Search your foods' onChange={handle_search} />
@@ -24,15 +39,20 @@ function ListMyFood() {
                 <Flex alignItems='center' my={2} >
                     My food
                     <Spacer/>
-                    <Button isDisabled={selected.length === 0} colorScheme='green' size='sm' onClick={log} >Add food</Button>
+                    <Button  colorScheme='green' size='sm' onClick={add_food} >Add food</Button>
                 </Flex>
 
-
+                <CheckboxGroup onChange={handle_check} value={state.selected} >
                 {
-                    search.map((food, key) => (
-                        <FoodCard food={food} key={key} action={handle_selection}  />
+                    state.search.map((food, key) => (
+                        <React.Fragment key={key} >
+                        <FoodCard food={food} handle_select={handle_select} >
+                            <Checkbox value={food._id} />
+                        </FoodCard>
+                        </React.Fragment>
                     ))
                 }
+                </CheckboxGroup>
             </Box>
         </WaitLoading>
     )

@@ -1,25 +1,12 @@
-import React, { useState } from 'react'
-import { Box, Text, Radio, Flex, Spacer } from '@chakra-ui/react'
+import React from 'react'
+import { Box, Text, Flex, Spacer } from '@chakra-ui/react'
 
-function FoodCard({ food, action }) {
-
-    console.log(food)
-
-    const [ isChecked, setIsChecked ] = useState(false)
+function FoodCard({ food, handle_select, children }) {
 
     const handle_click = () => {
-        setIsChecked(state => {
-            if (!state){
-                console.log('Is Checked')
-                action(food)
-            }
-            else{
-                console.log('Is unchecked')
-                console.log(food._id)
-                action(food._id)
-            }
-            return !state
-        })
+        if (handle_select){
+            handle_select(food._id)
+        }
     }
 
     return (
@@ -27,7 +14,7 @@ function FoodCard({ food, action }) {
 
                 
             <Flex w='100%'  alignItems='center' px={2} >
-                <Radio isChecked={isChecked} />
+                {children}
                 <Box mx={3}>
                     <Text size='lg' fontWeight='bold' >{food.name}</Text>
                     <Text fontSize='sm' color='gray.600' fontWeight='light' isTruncated >
@@ -53,4 +40,4 @@ function FoodCard({ food, action }) {
     )
 }
 
-export default React.memo(FoodCard)
+export default FoodCard

@@ -12,7 +12,6 @@ export const CheckPassword = (inputtxt) => {
 }
 
 export const search_array = (str, list) => {
-    console.log(str)
     let new_list = list.filter(obj => obj.name.toLowerCase().includes(str.toLowerCase()) )
     return new_list
 }

@@ -5,7 +5,7 @@ import SearchFood from '../Search_Food/SearchFood'
 import CreateFood from '../Create_Food/CreateFood'
 import NeedsLogIn from '../../../utils/NeedsLogIn'
 
-function FoodHub() {
+function FoodHub({ close }) {
     return (
         <Box>
 
@@ -20,7 +20,7 @@ function FoodHub() {
 
                     <TabPanel>
                         <NeedsLogIn>
-                            <ListMyFood />
+                            <ListMyFood close={close} />
                         </NeedsLogIn>
                     </TabPanel>
 
