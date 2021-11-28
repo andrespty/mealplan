@@ -20,7 +20,7 @@ router.route('/login').post(async (request, response) => {
     console.log(request.baseUrl + request.route.path)
     const user = request.body
 
-    User.findOne({ email: user.email })
+    User.findOne({ email: user.email }).select('-__v -updatedAt -createdAt')
     .then( dbUser => {
         if (!dbUser){
             return response.json({message:'Email does not exists', success:false, field:'email'})
@@ -66,6 +66,7 @@ router.route('/signup').post(async (request, response) => {
     newUser.save()
     .then(user => {
         const payload = {
+            _id: user._id,
             username: user.username,
             first_name: user.first_name,
             last_name: user.last_name,

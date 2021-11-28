@@ -17,7 +17,6 @@ const foodSchema = new Schema({
     serving_size:{
         serving: {type: String, required:true},
         serving_unit: {type: String, required:true},
-        servings_per_container: {type: String, required:true},
     },
     nutritional_facts:{
         calories: {type: String, required:true},

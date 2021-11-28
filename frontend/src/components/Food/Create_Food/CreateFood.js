@@ -56,8 +56,6 @@ function CreateFood() {
                     </Stack>
                 </InputField>
 
-                <InputNumber label='Servings per container' placeholder='1' value={info.serving_size.servings_per_container} onChange={(e) => setInfo({type:'serving',value:{servings_per_container:e}})}/>
-
                 <Divider my={3} />
 
                 <Heading size='md' >Nutrition Facts</Heading>

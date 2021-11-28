@@ -8,6 +8,8 @@ function NeedsLogIn({ children }) {
     const { user } = useContext(UserContext)
     let navigate = useNavigate()
 
+    console.log(user)
+
     const redirect = () => {
         navigate('/login')
     }
