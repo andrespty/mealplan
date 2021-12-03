@@ -5,11 +5,19 @@ import useCreateMeal from './useCreateMeal'
 import DrawerLayout from '../Drawer/DrawerLayout'
 import FoodHub from '../Food/Food_Hub/FoodHub'
 import FoodCard from '../Food/List_Food/FoodCard'
+import FoodDetails from '../Food/Food_Details/FoodDetails'
 
 function CreateMeal() {
 
-    const { meal_info, setMealInfo, create_meal } = useCreateMeal()
-    const { isOpen, onClose, onOpen } = useDisclosure()
+    const { meal_info, setMealInfo, create_meal, foodID, setFoodID } = useCreateMeal()
+    const { isOpen: addFoodIsOpen, onClose: addFoodClose, onOpen:addFoodOnOpen } = useDisclosure()
+    const { isOpen: detailsIsOpen, onClose: detailsClose, onOpen:detailsOnOpen } = useDisclosure()
+
+    const open_food_details = (food_id) => {
+        console.log(food_id)
+        setFoodID(food_id)
+        detailsOnOpen()
+    }
 
     return (
         <Box>
@@ -21,23 +29,27 @@ function CreateMeal() {
                     <Input placeholder='Meal name' onChange={(e) => setMealInfo({name:e.target.value})} value={meal_info.name} />
                 </InputField>
                 
-                <Heading as='h4' size='md' mb={2} >Calories: </Heading>
+                <Heading as='h4' size='md' mb={2} >Calories:  </Heading>
 
                 <Flex direction='row' alignItems='center' mb={1} >
                     <Text>Items List</Text>
                     <Spacer />
-                    <Button size='sm' onClick={onOpen} >Add food</Button>
+                    <Button size='sm' onClick={addFoodOnOpen} >Add food</Button>
                 </Flex>
                 <Divider />
 
                 {
                     meal_info.recipe.map((food, key) => (
-                        <FoodCard food={food} key={key} />
+                        <FoodCard food={food} key={key} handle_select={open_food_details} />
                     ))
                 }
 
-                <DrawerLayout isOpen={isOpen} onClose={onClose} header='Foods' placement='left' size='md' >
-                    <FoodHub close={onClose} />
+                <DrawerLayout isOpen={addFoodIsOpen} onClose={addFoodClose} header='Foods' placement='left' size='md' >
+                    <FoodHub close={addFoodClose} />
+                </DrawerLayout>
+
+                <DrawerLayout isOpen={detailsIsOpen} onClose={detailsClose} header='Details' placement='left' size='md' >
+                    <FoodDetails foodID={foodID} />
                 </DrawerLayout>
 
             </MealContext.Provider>

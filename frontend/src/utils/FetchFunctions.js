@@ -29,3 +29,9 @@ export async function get_my_food({ userID }){
 
     return await response.data
 }
+
+export async function get_food_details({ foodID }){
+    const response = await axios.get(`${fetch_url}/foods/${foodID}`)
+
+    return await response.data
+}

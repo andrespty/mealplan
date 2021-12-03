@@ -41,6 +41,7 @@ const initial_info = {
     serving_size:{
         serving: 1.0,
         serving_unit: '',
+        number_of_servings:'1'
     },
     nutritional_facts:{
         calories:'',

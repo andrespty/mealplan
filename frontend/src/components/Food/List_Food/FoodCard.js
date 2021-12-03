@@ -1,4 +1,4 @@
-import React from 'react'
+ import React from 'react'
 import { Box, Text, Flex, Spacer } from '@chakra-ui/react'
 
 function FoodCard({ food, handle_select, children }) {
