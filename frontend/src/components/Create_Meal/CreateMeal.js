@@ -14,7 +14,6 @@ function CreateMeal() {
     const { isOpen: detailsIsOpen, onClose: detailsClose, onOpen:detailsOnOpen } = useDisclosure()
 
     const open_food_details = (food_id) => {
-        console.log(food_id)
         setFoodID(food_id)
         detailsOnOpen()
     }
