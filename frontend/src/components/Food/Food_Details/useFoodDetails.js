@@ -12,12 +12,7 @@ const useFoodDetails = (foodID) => {
             setInfo(state => ({
                 ...state,
                 isLoading:false,
-                food: response.data[0],
-                // data: [
-                //     {title:'Protein', value:parseInt(response.data[0].nutritional_facts.protein), color:''},
-                //     {title:'Carbs', value:parseInt(response.data[0].nutritional_facts.total_carbohydrates), color:''},
-                //     {title:'Fat', value:parseInt(response.data[0].nutritional_facts.saturated_fat), color:''},
-                // ]
+                food: response.data[0]
             }))
         })
 
