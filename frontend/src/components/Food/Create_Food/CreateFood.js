@@ -5,11 +5,13 @@ Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react'
 import InputNumber from '../../Inputs/InputNumber'
 import InputField from '../../Inputs/InputField'
 import { UserContext } from '../../../App'
+const convert = require('convert-units')
 
 function CreateFood() {
 
     const { user } = useContext(UserContext)
 
+    const units = ['unit (s)', ...convert().possibilities('mass'), ...convert().possibilities('volume')]
     const { info, setInfo, state, submit } = useCreateFood(user._id)
 
     return (
@@ -48,8 +50,9 @@ function CreateFood() {
                         <InputNumber placeholder='1' value={info.serving_size.serving} onChange={(e) => setInfo({type:'serving',value:{serving:e}})} />
                         <Select placeholder='Serving' value={info.serving_size.serving_unit} onChange={(e) => setInfo({type:'serving',value:{serving_unit:e.target.value}})} >
                             {
-                                serving_sizes.map((size, key) => (
-                                    <option value={size.value} key={key} >{size.name}</option>
+                                units.map((unit, key) => (
+                                    <option value={unit} key={key} >{unit}</option>
+                                    
                                 ))
                             }
                         </Select>
@@ -87,37 +90,3 @@ function CreateFood() {
 
 export default CreateFood
 
-const serving_sizes = [
-    {
-        value: 'cups',
-        name: 'Cup(s)'
-    },
-    {
-        value: 'ounces',
-        name: 'Oz.'
-    },
-    {
-        value: 'cups',
-        name: 'Cups'
-    },
-    {
-        value: 'cups',
-        name: 'Cups'
-    },
-    {
-        value: 'cups',
-        name: 'Cups'
-    },
-    {
-        value: 'cups',
-        name: 'Cups'
-    },
-    {
-        value: 'cups',
-        name: 'Cups'
-    },
-    {
-        value: 'cups',
-        name: 'Cups'
-    },
-]

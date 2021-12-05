@@ -3,6 +3,8 @@ import { Box, Button, Heading, Flex, Spacer, useDisclosure } from '@chakra-ui/re
 import DrawerLayout from '../../components/Drawer/DrawerLayout'
 import CreateMeal from '../../components/Create_Meal/CreateMeal'
 
+import ChartPie from '../../components/Charts/ChartPie'
+
 function MealPrep() {
 
     const { onOpen, onClose, isOpen } = useDisclosure()
@@ -15,6 +17,8 @@ function MealPrep() {
                 <Button variant='solid' colorScheme='green' onClick={onOpen} >Create Meal</Button>
             </Flex>
 
+            {/* <ChartPie /> */}
+
             <DrawerLayout isOpen={isOpen} onClose={onClose} header='Create a meal' placement='left' size='md' >
                 <CreateMeal />
             </DrawerLayout>
@@ -24,3 +28,4 @@ function MealPrep() {
 }
 
 export default MealPrep
+
