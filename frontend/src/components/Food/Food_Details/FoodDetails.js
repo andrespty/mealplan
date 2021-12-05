@@ -9,7 +9,7 @@ const convert = require('convert-units')
 
 function FoodDetails({ foodID }) {
 
-    const { info } = useFoodDetails(foodID)
+    const { info, modify } = useFoodDetails(foodID)
 
     return (
         <WaitLoading loading={false}>
@@ -21,7 +21,7 @@ function FoodDetails({ foodID }) {
 
             <Box mt={5}>
                 <Text fontSize='xl' align='center' lineHeight='1' >
-                    {info.food.nutritional_facts.calories} Cal
+                    {info.info.nutritional_facts.calories} Cal
                 </Text>
 
                 <Center>
@@ -29,17 +29,16 @@ function FoodDetails({ foodID }) {
                 </Center>
                 
                 <Macros 
-                    protein={info.food.nutritional_facts.protein}
-                    carbs={info.food.nutritional_facts.total_carbohydrates}
-                    fat={info.food.nutritional_facts.total_fat}
-
+                    protein={info.info.nutritional_facts.protein}
+                    carbs={info.info.nutritional_facts.total_carbohydrates}
+                    fat={info.info.nutritional_facts.total_fat}
                 />
             </Box>
 
             <Flex direction='row' alignContent='space-between' mt={5}>
 
                 <InputField label='Serving Size' pr={2}>
-                    <Select value={info.food.serving_size.serving_unit} onChange={(e) =>console.log(e.target.value)} >
+                    <Select value={info.info.serving_size.serving_unit} onChange={(e) => modify(true, e.target.value)} >
                         {
                             info.serving_sizes.map((size, key) => (
                                 <option value={size} key={key}>1 {size}</option>
@@ -51,7 +50,7 @@ function FoodDetails({ foodID }) {
                 <Spacer />
 
                 <InputField label='Number of servings' >
-                    <InputNumber />
+                    <InputNumber value={info.info.serving_size.number_of_servings} onChange={e => modify(false, e)} />
                 </InputField>
             </Flex>
 
