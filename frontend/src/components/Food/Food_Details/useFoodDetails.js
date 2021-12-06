@@ -5,8 +5,7 @@ const convert = require('convert-units')
 const useFoodDetails = (foodID) => {
 
     const [ info, setInfo ] = useState(initial_info)
-
-    console.log(convert().from('oz').possibilities())
+    const [ params, setParams ] = useState({units:'', number:''})
 
     useEffect(() => {
         get_food_details({foodID:foodID})
@@ -14,12 +13,13 @@ const useFoodDetails = (foodID) => {
             let data = response.data[0]
             console.log(data)
             let serving_options = convert().from(data.serving_size.serving_unit).possibilities()
-
+            
+            setParams({units:data.serving_size.serving_units, number:data.serving_size.number_of_servings})
             setInfo(state => ({
                 ...state,
                 isLoading:false,
                 food: data,
-                info: data,
+                nutritional_data: data.nutritional_facts,
                 serving_sizes:serving_options,
                 data:[
                     {
@@ -40,55 +40,53 @@ const useFoodDetails = (foodID) => {
 
     },[])
     
-    const modify = (isServing, value) => {
-        console.log(isServing)
-        if (isServing){
-            setInfo(state => {
-                let conversion = convert(1).from(value).to(state.food.serving_size.serving_unit)
-                
-                return ({
-                    ...state,
-                    info: {
-                        ...state.info,
-                        serving_size:{
-                            ...state.info.serving_size,
-                            serving_unit: value
-                        },
-                        nutritional_facts: {
-                            ...state.info.nutritional_facts,
-                            calories:(state.food.nutritional_facts.calories * conversion).toFixed(1),
-                            protein: (state.food.nutritional_facts.protein * conversion).toFixed(1),
-                            total_carbohydrates:(state.food.nutritional_facts.total_carbohydrates * conversion).toFixed(1),
-                            total_fat:(state.food.nutritional_facts.total_fat * conversion).toFixed(1)
-                            // Add other nutritional facts here
-                        }
-                    }
-                })
-            })
+    const modify = ({unit, number}) => {
+    
+        if (unit){
+            setParams(state => ({
+                ...state,
+                units:unit
+            }))
         }
         else{
-            setInfo(state => ({
+            setParams(state => ({
                 ...state,
-                info:{
-                    ...state.info,
-                    serving_size:{
-                        ...state.info.serving_size,
-                        number_of_servings: value
-                    },
-                    nutritional_facts:{
-                        ...state.info.nutritional_facts,
-                        calories:(state.food.nutritional_facts.calories * value).toFixed(1),
-                        protein: (state.food.nutritional_facts.protein * value).toFixed(1),
-                        total_carbohydrates:(state.food.nutritional_facts.total_carbohydrates * value).toFixed(1),
-                        total_fat:(state.food.nutritional_facts.total_carbohydrates * value).toFixed(1),
-                    }
-                },
+                number:number
             }))
         }
 
+        setInfo(state => {
+            let from_unit = ''
+            let n_servings = 0
+            if (unit){
+                from_unit = unit
+                n_servings = params.number
+            }
+            else{
+                from_unit = params.units
+                n_servings = number
+            }
+
+            console.log(from_unit)
+            console.log(n_servings)
+            let conversion = convert(1).from(from_unit).to(state.food.serving_size.serving_unit)
+            
+            return ({
+                ...state,
+                nutritional_data:{
+                    ...state.nutritional_data,
+                    calories:(state.food.nutritional_facts.calories * conversion * n_servings).toFixed(1),
+                    protein: (state.food.nutritional_facts.protein * conversion * n_servings).toFixed(1),
+                    total_carbohydrates:(state.food.nutritional_facts.total_carbohydrates * conversion * n_servings).toFixed(1),
+                    total_fat:(state.food.nutritional_facts.total_fat * conversion * n_servings).toFixed(1)
+                }
+                // Add other nutritional facts here
+            })
+        })
+        
     }
 
-    return { info, modify }
+    return { info, modify, params, }
 }
 
 export default useFoodDetails
@@ -104,12 +102,5 @@ const initial_info = {
     },
     data:[],
     serving_sizes: [],
-    info: {
-        creator:{},
-        description:'',
-        name:'',
-        nutritional_facts:{},
-        serving_size:{},
-        _id:''
-    }
+    nutritional_data: {}
 }

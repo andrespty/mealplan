@@ -9,7 +9,7 @@ const convert = require('convert-units')
 
 function FoodDetails({ foodID }) {
 
-    const { info, modify } = useFoodDetails(foodID)
+    const { info, modify, params } = useFoodDetails(foodID)
 
     return (
         <WaitLoading loading={false}>
@@ -21,7 +21,7 @@ function FoodDetails({ foodID }) {
 
             <Box mt={5}>
                 <Text fontSize='xl' align='center' lineHeight='1' >
-                    {info.info.nutritional_facts.calories} Cal
+                    {info.nutritional_data.calories} Cal
                 </Text>
 
                 <Center>
@@ -29,16 +29,16 @@ function FoodDetails({ foodID }) {
                 </Center>
                 
                 <Macros 
-                    protein={info.info.nutritional_facts.protein}
-                    carbs={info.info.nutritional_facts.total_carbohydrates}
-                    fat={info.info.nutritional_facts.total_fat}
+                    protein={info.nutritional_data.protein}
+                    carbs={info.nutritional_data.total_carbohydrates}
+                    fat={info.nutritional_data.total_fat}
                 />
             </Box>
 
             <Flex direction='row' alignContent='space-between' mt={5}>
 
                 <InputField label='Serving Size' pr={2}>
-                    <Select value={info.info.serving_size.serving_unit} onChange={(e) => modify(true, e.target.value)} >
+                    <Select value={params.units} onChange={(e) => modify({unit:e.target.value})} >
                         {
                             info.serving_sizes.map((size, key) => (
                                 <option value={size} key={key}>1 {size}</option>
@@ -50,7 +50,7 @@ function FoodDetails({ foodID }) {
                 <Spacer />
 
                 <InputField label='Number of servings' >
-                    <InputNumber value={info.info.serving_size.number_of_servings} onChange={e => modify(false, e)} />
+                    <InputNumber value={params.number} onChange={e => modify({number:e})} />
                 </InputField>
             </Flex>
 
