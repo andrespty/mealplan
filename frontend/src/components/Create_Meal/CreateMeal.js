@@ -11,12 +11,8 @@ function CreateMeal() {
     
     const { isOpen: detailsIsOpen, onClose: detailsClose, onOpen:detailsOnOpen } = useDisclosure()
     const { isOpen: addFoodIsOpen, onClose: addFoodClose, onOpen:addFoodOnOpen } = useDisclosure()
-    const { meal_info, setMealInfo, create_meal, foodID, setFoodID, save_edit } = useCreateMeal(detailsClose, detailsIsOpen)
-
-    const open_food_details = (food_id) => {
-        setFoodID(food_id)
-        detailsOnOpen()
-    }
+    
+    const { meal_info, setMealInfo, create_meal, editFood, save_edit, open_details } = useCreateMeal(detailsClose, detailsOnOpen)
 
     console.log('Render CREATE MEAL')
 
@@ -30,7 +26,7 @@ function CreateMeal() {
                     <Input placeholder='Meal name' onChange={(e) => setMealInfo({name:e.target.value})} value={meal_info.name} />
                 </InputField>
                 
-                <Heading as='h4' size='md' mb={2} >Calories:  </Heading>
+                <Heading as='h4' size='md' mb={2} >Calories: {meal_info.calories} </Heading>
 
                 <Flex direction='row' alignItems='center' mb={1} >
                     <Text>Items List</Text>
@@ -41,7 +37,7 @@ function CreateMeal() {
 
                 {
                     meal_info.recipe.map((food, key) => (
-                        <FoodCard food={food} key={key} handle_select={open_food_details} />
+                        <FoodCard food={food} key={key} handle_select={open_details} />
                     ))
                 }
 
@@ -50,7 +46,7 @@ function CreateMeal() {
                 </DrawerLayout>
 
                 <DrawerLayout isOpen={detailsIsOpen} onClose={detailsClose} header='Details' placement='left' size='md' >
-                    <FoodDetails foodID={foodID} save_edit={save_edit} />
+                    <FoodDetails editFood={editFood} save_edit={save_edit} />
                 </DrawerLayout>
 
             </MealContext.Provider>

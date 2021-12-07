@@ -6,11 +6,11 @@ import InputField from '../../Inputs/InputField'
 import ChartPie from '../../Charts/ChartPie'
 import InputNumber from '../../Inputs/InputNumber'
 
-function FoodDetails({ foodID, save_edit }) {
+function FoodDetails({ editFood, save_edit }) {
 
-    const { info, modify, save } = useFoodDetails(foodID, save_edit)
+    const { info, modify, save } = useFoodDetails(editFood, save_edit)
 
-    console.log('Render FOOD DETAILS')
+    console.log(info)
 
     return (
         <WaitLoading loading={false}>

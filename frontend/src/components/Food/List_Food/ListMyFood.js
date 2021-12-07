@@ -18,7 +18,10 @@ function ListMyFood({ close }) {
         close()
         let food_list = state.list.filter(food => state.selected.includes(food._id))
         console.log(food_list)
-        setMealInfo({items: state.selected, recipe: food_list})
+        setMealInfo({
+            items: state.selected,  // This is a list
+            recipe: food_list       // This will show t
+        })
     }
 
     const handle_check = (e) => {
@@ -46,7 +49,10 @@ function ListMyFood({ close }) {
                 {
                     state.search.map((food, key) => (
                         <React.Fragment key={key} >
-                        <FoodCard food={food} handle_select={handle_select} >
+                        <FoodCard 
+                            food={food} 
+                            handle_select={handle_select} 
+                        >
                             <Checkbox value={food._id} />
                         </FoodCard>
                         </React.Fragment>

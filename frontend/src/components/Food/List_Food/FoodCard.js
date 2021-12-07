@@ -29,7 +29,7 @@ function FoodCard({ food, handle_select, children }) {
                         {food.nutritional_facts.calories}
                     </Text>
                     <Text fontWeight='light' align='right' fontSize='sm' >
-                        {food.serving_size.serving} {food.serving_size.serving_unit}
+                        {food.serving_size.serving * food.serving_size.number_of_servings} {food.serving_size.serving_unit}
                     </Text>
                 </Box>
                 
