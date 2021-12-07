@@ -2,10 +2,9 @@ import { useEffect, useState } from "react"
 import { get_food_details } from "../../../utils/FetchFunctions"
 const convert = require('convert-units')
 
-const useFoodDetails = (foodID) => {
+const useFoodDetails = (foodID, save_edit) => {
 
     const [ info, setInfo ] = useState(initial_info)
-    const [ params, setParams ] = useState({units:'', number:''})
 
     useEffect(() => {
         get_food_details({foodID:foodID})
@@ -14,13 +13,13 @@ const useFoodDetails = (foodID) => {
             console.log(data)
             let serving_options = convert().from(data.serving_size.serving_unit).possibilities()
             
-            setParams({units:data.serving_size.serving_units, number:data.serving_size.number_of_servings})
             setInfo(state => ({
                 ...state,
                 isLoading:false,
                 food: data,
                 nutritional_data: data.nutritional_facts,
                 serving_sizes:serving_options,
+                inputs:{unit:data.serving_size.serving_unit, number:data.serving_size.number_of_servings},
                 data:[
                     {
                         name:'Carbs',
@@ -41,38 +40,18 @@ const useFoodDetails = (foodID) => {
     },[])
     
     const modify = ({unit, number}) => {
-    
-        if (unit){
-            setParams(state => ({
-                ...state,
-                units:unit
-            }))
-        }
-        else{
-            setParams(state => ({
-                ...state,
-                number:number
-            }))
-        }
 
         setInfo(state => {
-            let from_unit = ''
-            let n_servings = 0
-            if (unit){
-                from_unit = unit
-                n_servings = params.number
-            }
-            else{
-                from_unit = params.units
-                n_servings = number
-            }
-
-            console.log(from_unit)
-            console.log(n_servings)
+            let from_unit = unit ? unit : state.inputs.unit
+            let n_servings = number ? number : state.inputs.number
             let conversion = convert(1).from(from_unit).to(state.food.serving_size.serving_unit)
             
             return ({
                 ...state,
+                inputs: {
+                    unit: from_unit,
+                    number: n_servings
+                },
                 nutritional_data:{
                     ...state.nutritional_data,
                     calories:(state.food.nutritional_facts.calories * conversion * n_servings).toFixed(1),
@@ -86,13 +65,17 @@ const useFoodDetails = (foodID) => {
         
     }
 
-    return { info, modify, params, }
+    const save = () => {
+        save_edit(info.food)
+    }
+
+    return { info, modify, save }
 }
 
 export default useFoodDetails
 const initial_info = {
     isLoading: true,
-    food: {
+    food: {                 // This will not change
         creator:{},
         description:'',
         name:'',
@@ -100,7 +83,11 @@ const initial_info = {
         serving_size:{},
         _id:''
     },
-    data:[],
-    serving_sizes: [],
-    nutritional_data: {}
+    data:[],                // Will not change, this renders the graph
+    serving_sizes: [],      // List of the serving sizes available
+    nutritional_data: {},   // this will be changing with parameters
+    inputs: {
+        unit: '',
+        number: ''
+    }
 }

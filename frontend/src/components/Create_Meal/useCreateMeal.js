@@ -1,17 +1,13 @@
 import { useReducer, useEffect, useState } from 'react'
 
-const useCreateMeal = () => {
+const useCreateMeal = (detailsClose, detailsIsOpen) => {
     const [ meal_info, setMealInfo ] = useReducer(reducer, initial_info)
     const [ foodID, setFoodID ] = useState(0)
     
     useEffect(() => {
         let cal = 0
         meal_info.recipe.forEach((food) => {
-            console.log(food)
-            console.log(food.nutritional_facts.calories)
-            console.log(food.serving_size.serving)
 
-            // food.serving_size
         })
     }, [meal_info.recipe])
 
@@ -19,7 +15,18 @@ const useCreateMeal = () => {
         console.log(meal_info)
     }
 
-    return { meal_info, setMealInfo, create_meal, foodID, setFoodID }
+    const save_edit = (food) => {
+        let recipe_foods = [...meal_info.recipe]
+        let index = recipe_foods.findIndex(obj => obj._id === food._id)
+        recipe_foods[index] = food
+        setMealInfo(state => ({
+            ...state,
+            recipe: recipe_foods
+        }))
+        detailsClose()
+    }
+
+    return { meal_info, setMealInfo, create_meal, foodID, setFoodID, save_edit }
 }
 
 const initial_info = {

@@ -1,24 +1,34 @@
 import React from 'react'
-import { Box, Heading, Text, Divider, Flex, Spacer, Center, Select } from '@chakra-ui/react'
+import { Box, Heading, Text, Divider, Flex, Spacer, Center, Select, Button } from '@chakra-ui/react'
 import useFoodDetails from './useFoodDetails'
 import WaitLoading from '../../../utils/WaitLoading'
 import InputField from '../../Inputs/InputField'
 import ChartPie from '../../Charts/ChartPie'
 import InputNumber from '../../Inputs/InputNumber'
-const convert = require('convert-units')
 
-function FoodDetails({ foodID }) {
+function FoodDetails({ foodID, save_edit }) {
 
-    const { info, modify, params } = useFoodDetails(foodID)
+    const { info, modify, save } = useFoodDetails(foodID, save_edit)
+
+    console.log('Render FOOD DETAILS')
 
     return (
         <WaitLoading loading={false}>
-            <Box>
-                <Heading>{info.food.name}</Heading>
-                <Text>{info.food.description}</Text>
-                <Divider />
-            </Box>
+            <Flex direction='row' alignItems='center' >
+                <Box>
+                    <Heading>{info.food.name}</Heading>
+                    <Text>{info.food.description}</Text>
+                </Box>
 
+                <Spacer />
+                
+                <Box>
+                    <Button colorScheme='green' onClick={save}>Save</Button>
+                </Box>
+            </Flex>
+
+            <Divider />
+            
             <Box mt={5}>
                 <Text fontSize='xl' align='center' lineHeight='1' >
                     {info.nutritional_data.calories} Cal
@@ -38,7 +48,7 @@ function FoodDetails({ foodID }) {
             <Flex direction='row' alignContent='space-between' mt={5}>
 
                 <InputField label='Serving Size' pr={2}>
-                    <Select value={params.units} onChange={(e) => modify({unit:e.target.value})} >
+                    <Select value={info.inputs.unit} onChange={(e) => modify({unit:e.target.value})} >
                         {
                             info.serving_sizes.map((size, key) => (
                                 <option value={size} key={key}>1 {size}</option>
@@ -50,9 +60,11 @@ function FoodDetails({ foodID }) {
                 <Spacer />
 
                 <InputField label='Number of servings' >
-                    <InputNumber value={params.number} onChange={e => modify({number:e})} />
+                    <InputNumber value={info.inputs.number} onChange={e => modify({number:e})} />
                 </InputField>
             </Flex>
+
+            {/* will add the nutritional fact in the future */}
 
         </WaitLoading>
     )

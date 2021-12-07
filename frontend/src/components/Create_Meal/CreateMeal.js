@@ -8,15 +8,17 @@ import FoodCard from '../Food/List_Food/FoodCard'
 import FoodDetails from '../Food/Food_Details/FoodDetails'
 
 function CreateMeal() {
-
-    const { meal_info, setMealInfo, create_meal, foodID, setFoodID } = useCreateMeal()
-    const { isOpen: addFoodIsOpen, onClose: addFoodClose, onOpen:addFoodOnOpen } = useDisclosure()
+    
     const { isOpen: detailsIsOpen, onClose: detailsClose, onOpen:detailsOnOpen } = useDisclosure()
+    const { isOpen: addFoodIsOpen, onClose: addFoodClose, onOpen:addFoodOnOpen } = useDisclosure()
+    const { meal_info, setMealInfo, create_meal, foodID, setFoodID, save_edit } = useCreateMeal(detailsClose, detailsIsOpen)
 
     const open_food_details = (food_id) => {
         setFoodID(food_id)
         detailsOnOpen()
     }
+
+    console.log('Render CREATE MEAL')
 
     return (
         <Box>
@@ -48,7 +50,7 @@ function CreateMeal() {
                 </DrawerLayout>
 
                 <DrawerLayout isOpen={detailsIsOpen} onClose={detailsClose} header='Details' placement='left' size='md' >
-                    <FoodDetails foodID={foodID} />
+                    <FoodDetails foodID={foodID} save_edit={save_edit} />
                 </DrawerLayout>
 
             </MealContext.Provider>
