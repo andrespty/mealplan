@@ -10,8 +10,6 @@ function FoodDetails({ editFood, save_edit }) {
 
     const { info, modify, save } = useFoodDetails(editFood, save_edit)
 
-    console.log(info)
-
     return (
         <WaitLoading loading={false}>
             <Flex direction='row' alignItems='center' >

@@ -26,15 +26,16 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
     }
 
     const save_edit = (food) => {
-        console.log(food)
-        let recipe_foods = [...meal_info.recipe]
+        let recipe_foods = [...meal_info.recipe] // List with all ingredients and serving sizes
+        let calories = 0
         let index = recipe_foods.findIndex(obj => obj._id === food._id)
         console.log(recipe_foods[index])
         recipe_foods[index].nutritional_facts = {...recipe_foods[index].nutritional_facts, ...food.nutritional_facts}
         recipe_foods[index].serving_size = {...recipe_foods[index].serving_size, ...food.serving_size}
         setMealInfo(state => ({
             ...state,
-            recipe: recipe_foods
+            recipe: recipe_foods,
+            // e
         }))
         detailsClose()
     }

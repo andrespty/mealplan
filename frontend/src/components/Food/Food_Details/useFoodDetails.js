@@ -14,8 +14,6 @@ const useFoodDetails = (editFood, save_edit) => {
             let serving_options = convert().from(data.serving_size.serving_unit).possibilities()
             let conversion = convert(1).from(editFood.unit).to(data.serving_size.serving_unit)
 
-            console.log(conversion)
-
             setInfo(state => ({
                 ...state,
                 isLoading:false,

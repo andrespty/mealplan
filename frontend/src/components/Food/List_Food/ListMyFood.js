@@ -17,10 +17,16 @@ function ListMyFood({ close }) {
     const add_food = () => {
         close()
         let food_list = state.list.filter(food => state.selected.includes(food._id))
+        let calories = 0
+        food_list.forEach(food => {
+            calories += parseFloat(food.nutritional_facts.calories)
+        })
+        console.log(calories)
         console.log(food_list)
         setMealInfo({
             items: state.selected,  // This is a list
-            recipe: food_list       // This will show t
+            recipe: food_list,       // This will show t
+            calories: calories
         })
     }
 
