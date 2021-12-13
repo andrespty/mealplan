@@ -27,27 +27,51 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
 
     const save_edit = (food) => {
         let recipe_foods = [...meal_info.recipe] // List with all ingredients and serving sizes
-        let calories = 0
+        let macros = {...meal_info.macros}
+        let calories = meal_info.calories
         let index = recipe_foods.findIndex(obj => obj._id === food._id)
-        console.log(recipe_foods[index])
+        calories -= parseFloat(recipe_foods[index].nutritional_facts.calories)
+        macros = {
+            protein: macros.protein - parseFloat(recipe_foods[index].nutritional_facts.protein),
+            carbs: macros.carbs - parseFloat(recipe_foods[index].nutritional_facts.total_carbohydrates),
+            fat: macros.fat - parseFloat(recipe_foods[index].nutritional_facts.total_fat)
+        }
         recipe_foods[index].nutritional_facts = {...recipe_foods[index].nutritional_facts, ...food.nutritional_facts}
         recipe_foods[index].serving_size = {...recipe_foods[index].serving_size, ...food.serving_size}
-        setMealInfo(state => ({
-            ...state,
+        calories += parseFloat(recipe_foods[index].nutritional_facts.calories)
+        macros = {
+            protein: macros.protein + parseFloat(recipe_foods[index].nutritional_facts.protein),
+            carbs: macros.carbs + parseFloat(recipe_foods[index].nutritional_facts.total_carbohydrates),
+            fat: macros.fat + parseFloat(recipe_foods[index].nutritional_facts.total_fat)
+        }
+        setMealInfo({
             recipe: recipe_foods,
-            // e
-        }))
+            calories:calories,
+            macros: macros
+            // chartData
+        })
         detailsClose()
     }
 
     return { meal_info, setMealInfo, create_meal, editFood, save_edit, open_details }
-}
+}   
 
 const initial_info = {
     name:'',
     items:[],       // ID of foods
     recipe: [],
-    calories:0
+    calories:0,
+    macros:{
+        protein: 0.0,
+        carbs: 0.0,
+        fat: 0.0
+    },
+    chartData:[
+        {
+            name:'Carbs',
+            value:0.0
+        }
+    ]
 }
 
 const reducer = (state, action) => {

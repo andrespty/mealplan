@@ -1,11 +1,15 @@
 import React, { createContext } from 'react'
-import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure } from '@chakra-ui/react'
+import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure, Center } from '@chakra-ui/react'
 import InputField from '../Inputs/InputField'
 import useCreateMeal from './useCreateMeal'
 import DrawerLayout from '../Drawer/DrawerLayout'
 import FoodHub from '../Food/Food_Hub/FoodHub'
 import FoodCard from '../Food/List_Food/FoodCard'
 import FoodDetails from '../Food/Food_Details/FoodDetails'
+import ChartPie from '../Charts/ChartPie'
+import Macros from '../Macros/Macros'
+
+const colors = ['#0088FE', '#00C49F', '#FF8042']
 
 function CreateMeal() {
     
@@ -27,8 +31,19 @@ function CreateMeal() {
                 </InputField>
                 
                 <Heading as='h4' size='md' mb={2} >
-                    {meal_info.calories}
+                    {meal_info.calories} Calories
                 </Heading>
+
+                <Center>
+                    {/* <ChartPie size={80} colors={colors} /> */}
+                </Center>
+
+                <Macros 
+                    colors={colors}
+                    protein={meal_info.macros.protein}
+                    carbs={meal_info.macros.carbs}
+                    fat={meal_info.macros.fat}
+                />
 
                 <Flex direction='row' alignItems='center' mb={1} >
                     <Text>Items List</Text>

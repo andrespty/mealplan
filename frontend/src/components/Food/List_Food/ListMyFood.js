@@ -18,15 +18,25 @@ function ListMyFood({ close }) {
         close()
         let food_list = state.list.filter(food => state.selected.includes(food._id))
         let calories = 0
+        let macros = {
+            protein:0.0,
+            carbs:0.0,
+            fat:0.0
+        }
+        
+        //Looping through all items to be added
         food_list.forEach(food => {
             calories += parseFloat(food.nutritional_facts.calories)
+            macros.protein += parseFloat(food.nutritional_facts.protein)
+            macros.carbs += parseFloat(food.nutritional_facts.total_carbohydrates)
+            macros.fat += parseFloat(food.nutritional_facts.total_fat)
         })
-        console.log(calories)
-        console.log(food_list)
         setMealInfo({
             items: state.selected,  // This is a list
             recipe: food_list,       // This will show t
-            calories: calories
+            calories: calories,
+            macros: macros,
+            chartData:{}
         })
     }
 
