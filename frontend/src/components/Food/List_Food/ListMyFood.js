@@ -23,20 +23,26 @@ function ListMyFood({ close }) {
             carbs:0.0,
             fat:0.0
         }
-        
+        let chartData = [{name:'Carbs', value:0.0}, {name:'Protein', value:0.0}, {name:'Fat', value:0.0},]
+
         //Looping through all items to be added
         food_list.forEach(food => {
             calories += parseFloat(food.nutritional_facts.calories)
-            macros.protein += parseFloat(food.nutritional_facts.protein)
-            macros.carbs += parseFloat(food.nutritional_facts.total_carbohydrates)
-            macros.fat += parseFloat(food.nutritional_facts.total_fat)
+            macros.protein = (parseFloat(macros.protein) + parseFloat(food.nutritional_facts.protein)).toFixed(1)
+            macros.carbs = (parseFloat(macros.carbs) + parseFloat(food.nutritional_facts.total_carbohydrates)).toFixed(1)
+            macros.fat = (parseFloat(macros.fat) + parseFloat(food.nutritional_facts.total_fat)).toFixed(1)
         })
+
+        //Setting up pie chart
+        chartData[0].value = macros.carbs * 4
+        chartData[1].value = macros.protein * 4
+        chartData[2].value = macros.fat * 9
         setMealInfo({
             items: state.selected,  // This is a list
             recipe: food_list,       // This will show t
             calories: calories,
             macros: macros,
-            chartData:{}
+            chartData:chartData
         })
     }
 

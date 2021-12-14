@@ -30,12 +30,12 @@ function CreateMeal() {
                     <Input placeholder='Meal name' onChange={(e) => setMealInfo({name:e.target.value})} value={meal_info.name} />
                 </InputField>
                 
-                <Heading as='h4' size='md' mb={2} >
+                <Heading as='h4' size='md' mb={2} textAlign='center' >
                     {meal_info.calories} Calories
                 </Heading>
 
                 <Center>
-                    {/* <ChartPie size={80} colors={colors} /> */}
+                    <ChartPie data={meal_info.chartData} size={80} colors={colors} />
                 </Center>
 
                 <Macros 

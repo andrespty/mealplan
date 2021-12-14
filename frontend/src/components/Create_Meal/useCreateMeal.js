@@ -14,7 +14,10 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
     }, [meal_info.recipe])
 
     const create_meal = () => {
-        console.log(meal_info)
+        let meal = {}
+        meal.name = meal_info.name
+        meal.recipe = meal_info.recipe.map(food => ({_id:food._id, serving_size:food.serving_size}))
+        console.log(meal)
     }
 
     const open_details = (food_id) => {
@@ -29,26 +32,31 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
         let recipe_foods = [...meal_info.recipe] // List with all ingredients and serving sizes
         let macros = {...meal_info.macros}
         let calories = meal_info.calories
+        let chartData = [...meal_info.chartData]
         let index = recipe_foods.findIndex(obj => obj._id === food._id)
         calories -= parseFloat(recipe_foods[index].nutritional_facts.calories)
         macros = {
-            protein: macros.protein - parseFloat(recipe_foods[index].nutritional_facts.protein),
-            carbs: macros.carbs - parseFloat(recipe_foods[index].nutritional_facts.total_carbohydrates),
-            fat: macros.fat - parseFloat(recipe_foods[index].nutritional_facts.total_fat)
+            protein: (parseFloat(macros.protein) - parseFloat(recipe_foods[index].nutritional_facts.protein)).toFixed(1),
+            carbs: (parseFloat(macros.carbs) - parseFloat(recipe_foods[index].nutritional_facts.total_carbohydrates)).toFixed(1),
+            fat: (parseFloat(macros.fat) - parseFloat(recipe_foods[index].nutritional_facts.total_fat)).toFixed(1)
         }
         recipe_foods[index].nutritional_facts = {...recipe_foods[index].nutritional_facts, ...food.nutritional_facts}
         recipe_foods[index].serving_size = {...recipe_foods[index].serving_size, ...food.serving_size}
+        
         calories += parseFloat(recipe_foods[index].nutritional_facts.calories)
         macros = {
-            protein: macros.protein + parseFloat(recipe_foods[index].nutritional_facts.protein),
-            carbs: macros.carbs + parseFloat(recipe_foods[index].nutritional_facts.total_carbohydrates),
-            fat: macros.fat + parseFloat(recipe_foods[index].nutritional_facts.total_fat)
+            protein: (parseFloat(macros.protein) + parseFloat(recipe_foods[index].nutritional_facts.protein)).toFixed(1),
+            carbs: (parseFloat(macros.carbs) + parseFloat(recipe_foods[index].nutritional_facts.total_carbohydrates)).toFixed(1),
+            fat: (parseFloat(macros.fat) + parseFloat(recipe_foods[index].nutritional_facts.total_fat)).toFixed(1)
         }
+        chartData[0].value = macros.carbs * 4
+        chartData[1].value = macros.protein * 4
+        chartData[2].value = macros.fat * 9
         setMealInfo({
             recipe: recipe_foods,
             calories:calories,
-            macros: macros
-            // chartData
+            macros: macros,
+            chartData: chartData
         })
         detailsClose()
     }
@@ -69,6 +77,14 @@ const initial_info = {
     chartData:[
         {
             name:'Carbs',
+            value:0.0
+        },
+        {
+            name:'Protein',
+            value:0.0
+        },
+        {
+            name:'Fat',
             value:0.0
         }
     ]

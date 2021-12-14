@@ -30,15 +30,15 @@ const useFoodDetails = (editFood, save_edit) => {
                 data:[
                     {
                         name:'Carbs',
-                        value: parseInt(data.nutritional_facts.total_carbohydrates) * 4 * editFood.number * conversion
+                        value: parseInt(data.nutritional_facts.total_carbohydrates) * 4
                     },
                     {
                         name:'Protein',
-                        value: parseInt(data.nutritional_facts.protein) * 4 * editFood.number * conversion
+                        value: parseInt(data.nutritional_facts.protein) * 4
                     },
                     {
                         name:'Fat',
-                        value: parseInt(data.nutritional_facts.total_fat) * 9 * editFood.number * conversion
+                        value: parseInt(data.nutritional_facts.total_fat) * 9
                     }
                 ]
             }))
