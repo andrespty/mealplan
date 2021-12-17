@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure, Center } from '@chakra-ui/react'
+import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure, Center, Alert, Collapse, AlertIcon, CloseButton } from '@chakra-ui/react'
 import InputField from '../Inputs/InputField'
 import useCreateMeal from './useCreateMeal'
 import DrawerLayout from '../Drawer/DrawerLayout'
@@ -24,12 +24,40 @@ function CreateMeal() {
         <Box>
             <MealContext.Provider value={{ meal_info, setMealInfo }} >
 
-                <Button onClick={create_meal} size='sm' colorScheme='green' >Create</Button>
+                <Collapse in={meal_info.openAlert}>
+                    <Alert status={meal_info.createSuccess ? 'success' : 'error'} variant='left-accent' >
+                        <AlertIcon />
+                        {
+                            meal_info.createSuccess
+                            ? 'Your meal was created successfully'
+                            : 'An error happened'
+                        }
+                        <CloseButton position='absolute' right='8px' top='8px' onClick={() => setMealInfo({openAlert:false})}/>
+                    </Alert>
+                </Collapse>
 
+                <Button 
+                    onClick={create_meal} 
+                    size='sm' 
+                    variant='primary'
+                    isLoading={meal_info.isCreating}
+                    isDisabled={!meal_info.hasItems}
+                >
+                    Create
+                </Button>
+
+
+                {/* Inputs  */}
                 <InputField isRequired={false} isInvalid={false} label='Meal Name' mb={3}>
                     <Input placeholder='Meal name' onChange={(e) => setMealInfo({name:e.target.value})} value={meal_info.name} />
                 </InputField>
+
+                <InputField isRequired={true} isInvalid={false} label='Description' mb={3}>
+                    <Input placeholder='Description' onChange={(e) => setMealInfo({description:e.target.value})} value={meal_info.description} />
+                </InputField>
                 
+
+                {/* Data  */}
                 <Heading as='h4' size='md' mb={2} textAlign='center' >
                     {meal_info.calories} Calories
                 </Heading>
@@ -45,11 +73,15 @@ function CreateMeal() {
                     fat={meal_info.macros.fat}
                 />
 
-                <Flex direction='row' alignItems='center' mb={1} >
+
+                {/* Items List  */}
+                <Flex direction='row' alignItems='center' my={2} >
                     <Text>Items List</Text>
                     <Spacer />
-                    <Button size='sm' onClick={addFoodOnOpen} >Add food</Button>
+                    <Button size='sm' onClick={() => setMealInfo({edit:true})} variant='primaryGhost'  mx={2}>Edit</Button>
+                    <Button size='sm' onClick={addFoodOnOpen} variant='primaryOutline'>Add food</Button>
                 </Flex>
+
                 <Divider />
 
                 {
@@ -58,6 +90,8 @@ function CreateMeal() {
                     ))
                 }
 
+
+                {/* Drawers  */}
                 <DrawerLayout isOpen={addFoodIsOpen} onClose={addFoodClose} header='Foods' placement='left' size='md' >
                     <FoodHub close={addFoodClose} />
                 </DrawerLayout>

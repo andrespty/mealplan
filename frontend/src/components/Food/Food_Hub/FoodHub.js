@@ -9,7 +9,7 @@ function FoodHub({ close }) {
     return (
         <Box>
 
-            <Tabs colorScheme='green' variant='enclosed' isFitted isLazy={true} >
+            <Tabs colorScheme={'primaryTabs'} variant='enclosed' isFitted isLazy={true} >
                 <TabList>
                     <Tab>My Foods</Tab>
                     <Tab>Search Items</Tab>

@@ -20,7 +20,7 @@ function CreateFood() {
                 <Flex direction='row' alignItems='center' >
                     <Heading size='md'>Food Information</Heading>
                     <Spacer />
-                    <Button colorScheme='green' size='sm' isLoading={state.isLoading} type='submit' >Create Food</Button>
+                    <Button variant='primary' size='sm' isLoading={state.isLoading} type='submit' >Create Food</Button>
                 </Flex>
 
                 <Collapse in={state.alert} >

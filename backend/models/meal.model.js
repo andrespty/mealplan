@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const recipeSchema = new Schema({
-    foodID: {
-        type:Schema.Types.ObjectId,
+    food: {
+        type:mongoose.Schema.Types.ObjectId,
         ref:'Food',
         required:true
     },
@@ -19,11 +19,22 @@ const mealSchema = new Schema({
     
     name: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
         minlength:3
     },
-    recipe:[recipeSchema]
+    description:{
+        type: String,
+        required:true,
+        trim:true,
+        minlength:3,
+    },
+    recipe:[recipeSchema],
+    creator:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Users',
+        required:true
+    }
     
 })
 

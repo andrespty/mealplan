@@ -4,9 +4,7 @@ import { Flex, Text } from '@chakra-ui/react'
 
 
 function Macros({ protein, carbs, fat, colors}) {
-    console.log(protein)
-    console.log(fat)
-    console.log(carbs)
+
     const cal_protein = parseFloat(protein) * 4
     const cal_carbs = parseFloat(carbs) * 4
     const cal_fat = parseFloat(fat) * 9

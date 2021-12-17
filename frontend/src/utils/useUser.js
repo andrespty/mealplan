@@ -7,12 +7,13 @@ const useUser = () => {
 
     useEffect(() => {
         if (localStorage.getItem('token')){
+            setUser({type:'login', user:{isLoading:true}})
             validate_refresh_user()
             .then(res => {
                 console.log(res)
                 if (res.success){
                     localStorage.setItem('token', res.token)
-                    setUser({type:'login', user:res.user})
+                    setUser({type:'login', user:{...res.user, isLoading:false, isLoggedIn:true}})
                 }
                 else{
                     setUser({type:'logout'})
@@ -30,7 +31,8 @@ const initial_user = {
     last_name:'',
     username:'',
     email:'',
-    isLoggedIn: false
+    isLoggedIn: false,
+    isLoading:false
 }
 
 const reducer = (state, action) => {

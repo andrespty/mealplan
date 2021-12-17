@@ -35,3 +35,13 @@ export async function get_food_details({ foodID }){
 
     return await response.data
 }
+
+export async function create_meal({ body }){
+    const response = await axios.post(`${fetch_url}/meals/`, body, {
+        headers:{
+            'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('token')
+        }
+    })
+    return await response.data
+}

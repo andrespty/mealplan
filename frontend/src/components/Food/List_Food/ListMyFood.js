@@ -60,11 +60,10 @@ function ListMyFood({ close }) {
 
                 <SearchInput placeholder='Search your foods' onChange={handle_search} />
 
-
                 <Flex alignItems='center' my={2} >
                     My food
                     <Spacer/>
-                    <Button  colorScheme='green' size='sm' onClick={add_food} >Add food</Button>
+                    <Button  variant='primary' size='sm' onClick={add_food} >Add food</Button>
                 </Flex>
 
                 <CheckboxGroup onChange={handle_check} value={state.selected} >

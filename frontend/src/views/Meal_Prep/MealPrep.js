@@ -14,7 +14,7 @@ function MealPrep() {
             <Flex alignItems='center' >
                 <Heading>Meal Prep</Heading>
                 <Spacer />
-                <Button variant='solid' colorScheme='green' onClick={onOpen} >Create Meal</Button>
+                <Button variant='primary' onClick={onOpen} >Create Meal</Button>
             </Flex>
 
             {/* <ChartPie /> */}

@@ -1,23 +1,34 @@
-import { useReducer, useEffect, useState } from 'react'
+import { useReducer, useEffect, useState, useContext } from 'react'
+import { create_meal as create } from '../../utils/FetchFunctions'
+import { UserContext } from '../../App'
 
 const useCreateMeal = (detailsClose, detailsOnOpen) => {
     const [ meal_info, setMealInfo ] = useReducer(reducer, initial_info)
     const [ editFood, setEditFood ] = useState(0)
-    
-    useEffect(() => {
-        let cal = 0
-        meal_info.recipe.forEach((food) => {
-            cal += parseFloat(food.nutritional_facts.calories)
-        })
-        // setMealInfo(state => ({...state, calories: cal}))
-        console.log(cal)
-    }, [meal_info.recipe])
+    const { user } = useContext(UserContext)
+
+    useEffect(() => {  
+        if (meal_info.recipe.length > 0 && !meal_info.hasItems){
+            setMealInfo({hasItems:true})
+        }   
+        else if (meal_info.recipe.length === 0 && meal_info.hasItems){
+            setMealInfo({hasItems:false})
+        }
+    }, [meal_info])
 
     const create_meal = () => {
+        setMealInfo({isCreating:true})
         let meal = {}
         meal.name = meal_info.name
-        meal.recipe = meal_info.recipe.map(food => ({_id:food._id, serving_size:food.serving_size}))
-        console.log(meal)
+        meal.description = meal_info.description
+        meal.recipe = meal_info.recipe.map(food => ({food:food._id, serving_size:food.serving_size}))
+        meal.creator = user._id
+        create({body: meal})
+        .then(json => {
+            console.log(json)
+            setMealInfo({...initial_info, createSuccess:true, openAlert:true})
+        })
+        .catch(err => console.log(err))
     }
 
     const open_details = (food_id) => {
@@ -66,6 +77,7 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
 
 const initial_info = {
     name:'',
+    description:'',
     items:[],       // ID of foods
     recipe: [],
     calories:0,
@@ -87,7 +99,12 @@ const initial_info = {
             name:'Fat',
             value:0.0
         }
-    ]
+    ],
+    isCreating:false,
+    openAlert:false,
+    createSuccess:false,
+    hasItems:false,
+    edit: false
 }
 
 const reducer = (state, action) => {
