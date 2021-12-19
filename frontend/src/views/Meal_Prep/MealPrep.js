@@ -1,9 +1,12 @@
 import React from 'react'
-import { Box, Button, Heading, Flex, Spacer, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Heading, Flex, Spacer, useDisclosure, Grid, GridItem } from '@chakra-ui/react'
 import DrawerLayout from '../../components/Drawer/DrawerLayout'
 import CreateMeal from '../../components/Create_Meal/CreateMeal'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import ChartPie from '../../components/Charts/ChartPie'
+import ListMeals from '../../components/Meals/List_Meals/ListMeals'
+import WeeklyBoard from '../../components/Board/WeeklyBoard'
 
 function MealPrep() {
 
@@ -17,7 +20,19 @@ function MealPrep() {
                 <Button variant='primary' onClick={onOpen} >Create Meal</Button>
             </Flex>
 
-            {/* <ChartPie /> */}
+            <DndProvider backend={HTML5Backend}>
+            <Grid templateColumns='repeat(5, 1fr)' gap={1} >
+
+                <GridItem colSpan={4}>
+                    <WeeklyBoard />
+                </GridItem>
+
+                <GridItem colSpan={1}>
+                    <ListMeals />
+                </GridItem>
+
+            </Grid>
+            </DndProvider>
 
             <DrawerLayout isOpen={isOpen} onClose={onClose} header='Create a meal' placement='left' size='md' >
                 <CreateMeal />

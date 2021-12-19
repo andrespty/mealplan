@@ -8,8 +8,7 @@ function Header() {
 
     let navigate = useNavigate()
     const { user } = useContext(UserContext)
-    console.log("Header")
-    console.log(user)
+
     return (
         <Flex bg='white' boxShadow={'md'} p={3} borderBottomRadius={10} alignItems='center'>
 

@@ -5,7 +5,7 @@ const verifyJWT = require('../middleware/verifyJWT')
 router.route('/').get((request, response) => {
     console.log(request.baseUrl + request.route.path)
 
-    Meal.find()
+    Meal.find().select('-__v').populate('recipe.food')
     .then(meals => response.json(meals))
     .catch(error => response.status(400).json({error: error}))
 })
@@ -13,7 +13,6 @@ router.route('/').get((request, response) => {
 // Create Meal
 router.route('/').post(verifyJWT, (request, response) => {
     const meal = request.body
-
     const newMeal = new Meal(meal)
 
     newMeal.save()

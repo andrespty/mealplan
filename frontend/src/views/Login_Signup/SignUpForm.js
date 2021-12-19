@@ -46,7 +46,7 @@ function SignUpForm({ isLogIn }) {
                 </InputField>
 
                 <Center>
-                    <Button type='submit' isLoading={loading} mt={3} isFullWidth w='50%' colorScheme='green'>
+                    <Button type='submit' isLoading={loading} mt={3} isFullWidth w='50%' variant='primary'>
                         Sign Up
                     </Button>
                 </Center>

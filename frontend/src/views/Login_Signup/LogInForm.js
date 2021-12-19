@@ -28,7 +28,7 @@ function LogInForm({ isLogIn }) {
                 </InputField>
 
                 <Center>
-                    <Button type='submit' isLoading={loading} mt={3} isFullWidth w='50%' variant='solid' colorScheme='green' >
+                    <Button type='submit' isLoading={loading} mt={3} isFullWidth w='50%' variant='primary' >
                         Log In
                     </Button>
                 </Center>

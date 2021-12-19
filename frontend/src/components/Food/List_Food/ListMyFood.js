@@ -74,7 +74,7 @@ function ListMyFood({ close }) {
                             food={food} 
                             handle_select={handle_select} 
                         >
-                            <Checkbox value={food._id} />
+                            <Checkbox value={food._id} colorScheme={'primary'} />
                         </FoodCard>
                         </React.Fragment>
                     ))

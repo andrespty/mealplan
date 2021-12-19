@@ -24,7 +24,7 @@ function FoodDetails({ editFood, save_edit }) {
                 <Spacer />
                 
                 <Box>
-                    <Button colorScheme='green' onClick={save}>Save</Button>
+                    <Button variant='primary' onClick={save}>Save</Button>
                 </Box>
             </Flex>
 

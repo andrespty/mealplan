@@ -45,3 +45,9 @@ export async function create_meal({ body }){
     })
     return await response.data
 }
+
+export async function get_meals_list(){
+    const response = await axios.get(`${fetch_url}/meals/`)
+
+    return await response.data
+}
