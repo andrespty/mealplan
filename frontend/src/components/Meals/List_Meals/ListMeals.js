@@ -12,7 +12,7 @@ function ListMeals() {
         <Box>
             {
                 meals.map((meal, key) => (
-                    <DraggableObject key={key} _id={meal._id} >
+                    <DraggableObject key={key} object={meal} >
                         <MealCard meal={meal} />
                     </DraggableObject>
                 ))

@@ -3,6 +3,7 @@ import { Box, Grid, GridItem } from '@chakra-ui/react'
 import DailyBoard from './DailyBoard'
 
 function WeeklyBoard() {
+    // console.log('WEEKLY BOARD')
     return (
         <Box>
             <Grid templateColumns='repeat(7, 1fr)' gap={1}>
@@ -12,27 +13,27 @@ function WeeklyBoard() {
                 </GridItem>
 
                 <GridItem colSpan={1}>
-                <DailyBoard day='Tuesday' />
+                    <DailyBoard day='Tuesday' />
                 </GridItem>
 
                 <GridItem colSpan={1}>
-                <DailyBoard day='Wednesday' />
+                    <DailyBoard day='Wednesday' />
                 </GridItem>
 
                 <GridItem colSpan={1}>
-                <DailyBoard day='Thursday' />
+                    <DailyBoard day='Thursday' />
                 </GridItem>
 
                 <GridItem colSpan={1}>
-                <DailyBoard day='Friday' />
+                    <DailyBoard day='Friday' />
                 </GridItem>
 
                 <GridItem colSpan={1}>
-                <DailyBoard day='Saturday' />
+                    <DailyBoard day='Saturday' />
                 </GridItem>
 
                 <GridItem colSpan={1}>
-                <DailyBoard day='Sunday' />
+                    <DailyBoard day='Sunday' />
                 </GridItem>
 
             </Grid>  
@@ -40,4 +41,4 @@ function WeeklyBoard() {
     )
 }
 
-export default WeeklyBoard
+export default React.memo(WeeklyBoard)

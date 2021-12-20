@@ -8,7 +8,6 @@ const useListMeals = () => {
     useEffect(() => {
         get_meals_list()
         .then(res => {
-            // console.log(res)
             setMeals(state => [...state, res[0]])
         })
     }, [])

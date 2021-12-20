@@ -1,63 +1,78 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Text, Divider, IconButton, Flex, Spacer } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { useDrop } from 'react-dnd'
+import { MealPrepContext } from '../../views/Meal_Prep/MealPrep'
+import MealCardCondensed from '../Meals/Card/MealCardCondensed'
 
 function DailyBoard({ day }) {
 
     return (
         <Box borderWidth={1} borderRadius={5} >
 
-            <Text textAlign={'center'} fontWeight={'semibold'} >
+            <Text textAlign={'center'} fontWeight={'semibold'} cursor={'pointer'}  >
                 {day}
             </Text>
 
             <Divider />
 
-            <MealTime time={'Breakfast'} />
+            <MealTime time={'Breakfast'} day={day.toLowerCase()} />
 
             <Divider/>
 
-            <MealTime time={'Lunch'}  />
+            <MealTime time={'Lunch'} day={day.toLowerCase()}  />
 
             <Divider/>
 
-            <MealTime time={'Dinner'} />
+            <MealTime time={'Dinner'} day={day.toLowerCase()} />
             
             <Divider/>
 
-            <MealTime time={'Snacks'} />
+            <MealTime time={'Snacks'} day={day.toLowerCase()} />
 
         </Box>
     )
 }
 
-export default DailyBoard
+export default React.memo(DailyBoard)
 
 
-const MealTime = ({ time }, ref) => {
+const MealTime = React.memo(({ time, day }) => {
+
+    const { week, setWeek } = useContext(MealPrepContext)
 
     const [{isOver}, drop ] = useDrop(() => ({
         accept:'object',
-        drop:(item) => dropObject(item._id),
-        collect: monitor => ({
+        drop:(item) => dropObject(item.object),
+        collect: (monitor) => ({
             isOver: !!monitor.isOver(),
           }),
     }))
 
-    const dropObject = (_id) => {
-        console.log(_id)
+    const dropObject = (object) => {
+        console.log(object)
+        console.log(week[day][time.toLowerCase()])
+        setWeek({
+            day:day, 
+            time: time.toLowerCase(),
+            value:object
+        })
     }
 
     return (
-        <Box minH={100} p={1} ref={drop}>
+        <Box minH={100} p={1} ref={drop} bg={isOver ? 'blue' : 'inherit'}>
             <Flex>
                 <Text fontSize='sm'>{time}</Text>
                 <Spacer />
                 <IconButton size='xs' variant='ghost' icon={<AddIcon />} />
             </Flex>
             
+            {
+                week[day][time.toLowerCase()].map((meal, key) => (
+                    <MealCardCondensed meal={meal} key={key}/>
+                ))
+            }
                 
         </Box>
     )
-}
+})

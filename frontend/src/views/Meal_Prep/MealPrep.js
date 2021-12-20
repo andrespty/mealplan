@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { createContext } from 'react'
 import { Box, Button, Heading, Flex, Spacer, useDisclosure, Grid, GridItem } from '@chakra-ui/react'
 import DrawerLayout from '../../components/Drawer/DrawerLayout'
 import CreateMeal from '../../components/Create_Meal/CreateMeal'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-
+import useMealPrep from './useMealPrep'
 import ListMeals from '../../components/Meals/List_Meals/ListMeals'
 import WeeklyBoard from '../../components/Board/WeeklyBoard'
 
 function MealPrep() {
 
     const { onOpen, onClose, isOpen } = useDisclosure()
+    
+    const { week, setWeek } = useMealPrep()
 
     return (
+        <MealPrepContext.Provider value={{week, setWeek}} >
         <Box mt={2} p={3}>
             <Flex alignItems='center' >
                 <Heading>Meal Prep</Heading>
@@ -39,8 +42,10 @@ function MealPrep() {
             </DrawerLayout>
 
         </Box>
+        </MealPrepContext.Provider>
     )
 }
 
 export default MealPrep
 
+export const MealPrepContext = createContext()

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text, Flex, Spacer, Badge } from '@chakra-ui/react'
-const convert = require('convert-units')
+import { get_calories } from '../../../utils/ConversionFunctions'
 
 function MealCard({ meal }) {
 
@@ -49,13 +49,6 @@ function MealCard({ meal }) {
 
 export default React.memo(MealCard)
 
-const get_calories = ({ attr, og_serv_unit, new_serv_unit, og_n_serv, new_n_serv, og_serv, new_serv }) => {
-    let n_servings_ratio = new_n_serv / og_n_serv
-    let servings_ratio = new_serv / og_serv
-    let conversion = convert(1).from(new_serv_unit).to(og_serv_unit)
-
-    return (attr * n_servings_ratio * servings_ratio * conversion)
-}
 
 // creator: "61985a8c39d3c84eb6a70a2a"
 // description: "This is the second meal"

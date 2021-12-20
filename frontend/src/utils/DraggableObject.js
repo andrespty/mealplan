@@ -2,11 +2,11 @@ import React from 'react'
 import { useDrag } from 'react-dnd'
 import { Box } from '@chakra-ui/react'
 
-function DraggableObject( {children, _id} ) {
+function DraggableObject( {children, object} ) {
 
     const [{isDragging}, drag] = useDrag(() => ({
         type: 'object',
-        item:{_id:_id},
+        item:{object:object},
         collect: monitor => ({
           isDragging: !!monitor.isDragging(),
         }),
