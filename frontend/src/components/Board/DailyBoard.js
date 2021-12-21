@@ -60,7 +60,7 @@ const MealTime = React.memo(({ time, day }) => {
     }
 
     return (
-        <Box minH={100} p={1} ref={drop} bg={isOver ? 'blue' : 'inherit'}>
+        <Box minH={100} p={1} ref={drop} style={{opacity: isOver ? 0.5 : 1}}>
             <Flex>
                 <Text fontSize='sm'>{time}</Text>
                 <Spacer />

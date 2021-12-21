@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react"
-import { create_food } from "../../../utils/FetchFunctions"
+import { create_food } from "../../../utils/Fetch_Functions/Food"
 
 const useCreateFood = (userID) => {
     const [ info, setInfo ] = useReducer(reducer, initial_info)

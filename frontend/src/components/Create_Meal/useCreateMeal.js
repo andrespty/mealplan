@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useState, useContext } from 'react'
-import { create_meal as create } from '../../utils/FetchFunctions'
+import { create_meal as create } from '../../utils/Fetch_Functions/Meal'
 import { UserContext } from '../../App'
 
 const useCreateMeal = (detailsClose, detailsOnOpen) => {

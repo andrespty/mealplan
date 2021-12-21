@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { get_my_food } from "../../../utils/FetchFunctions"
+import { get_my_food } from "../../../utils/Fetch_Functions/Food"
 import { search_array } from "../../../utils/UtilityFunctions"
 
 

@@ -1,22 +1,41 @@
 import React from 'react'
-import { Box } from '@chakra-ui/react'
-import useListMeals from './useListMeals'
-import MealCard from '../Card/MealCard'
-import DraggableObject from '../../../utils/DraggableObject'
+import { Box, Tabs, Tab, TabList, TabPanel, TabPanels } from '@chakra-ui/react'
+import ListMyMeals from './ListMyMeals'
+import NeedsLogIn from '../../../utils/NeedsLogIn'
+import ListMyFood from './ListMyFoods'
 
 function ListMeals() {
 
-    const { meals } = useListMeals()
-
     return (
         <Box>
-            {
-                meals.map((meal, key) => (
-                    <DraggableObject key={key} object={meal} >
-                        <MealCard meal={meal} />
-                    </DraggableObject>
-                ))
-            }
+            
+            <Tabs colorScheme={'primaryTabs'} variant='enclosed' isLazy={true} >
+                <TabList>
+                    <Tab>My Meals</Tab>
+                    <Tab>My Foods</Tab>
+                    <Tab>Search</Tab>
+                </TabList>
+
+                <TabPanels>
+                    <TabPanel>
+                        <NeedsLogIn>
+                            <ListMyMeals />
+                        </NeedsLogIn>
+                    </TabPanel>
+                    <TabPanel>
+                        <NeedsLogIn>
+                            <ListMyFood />
+                        </NeedsLogIn>
+                    </TabPanel>
+                    <TabPanel>
+                        <NeedsLogIn>
+                            <ListMyMeals type='all'  />
+                        </NeedsLogIn>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+
+            
         </Box>
     )
 }

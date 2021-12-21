@@ -1,7 +1,7 @@
 import { useReducer, useContext, useState } from "react"
 import { UserContext } from "../../App"
 import { CheckPasswordsAreSame, CheckPassword } from "../../utils/UtilityFunctions"
-import { log_in_sign_up } from "../../utils/FetchFunctions"
+import { log_in_sign_up } from "../../utils/Fetch_Functions/LoginSignUp"
 import { useNavigate } from "react-router"
 
 const useLoginSignup = (isLogIn) => {

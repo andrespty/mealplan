@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { get_food_details } from "../../../utils/FetchFunctions"
+import { get_food_details } from "../../../utils/Fetch_Functions/Food"
 const convert = require('convert-units')
 
 const useFoodDetails = (editFood, save_edit) => {
