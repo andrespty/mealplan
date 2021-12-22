@@ -33,6 +33,26 @@ const useListMyFood = (userID, selected_items) => {
         }))
     }
 
+    const save_edit = (food) => {
+        let edit_list = [...state.list]
+        let index = state.list.findIndex(obj => obj._id === food._id)
+        edit_list[index] = {
+            ...edit_list[index],
+            serving_size:{
+                ...edit_list[index].serving_size,
+                ...food.serving_size
+            },
+            nutritional_facts:{
+                ...edit_list[index].nutritional_facts,
+                ...food.nutritional_facts
+            }
+        }
+        setState(prev => ({
+            ...prev,
+            list: edit_list
+        }))
+    }
+
     const handle_select = (data) => {
         let add = !state.selected.includes(data)
         if (add){
@@ -50,7 +70,7 @@ const useListMyFood = (userID, selected_items) => {
     }
 
 
-    return { state, handle_search, setState, handle_select }
+    return { state, handle_search, setState, handle_select, save_edit }
 }
 
 export default useListMyFood

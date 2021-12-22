@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
 import DraggableObject from '../../../utils/DraggableObject'
-import MealCard from '../Card/MealCard'
+import MealCard from '../../Cards/MealCard'
 import useListMyMeals from './useListMyMeals'
 
 function ListMyMeals() {

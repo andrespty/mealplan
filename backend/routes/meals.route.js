@@ -2,6 +2,7 @@ const router = require('express').Router()
 let Meal = require('../models/meal.model')
 const verifyJWT = require('../middleware/verifyJWT')
 
+// get all meals 
 router.route('/').get((request, response) => {
     console.log(request.baseUrl + request.route.path)
 
@@ -12,6 +13,7 @@ router.route('/').get((request, response) => {
     .catch(error => response.status(400).json({error: error}))
 })
 
+// Get all meals created by a user
 router.route('/:id').get((request, response) => {
     console.log('hello')
     const { id } = request.params

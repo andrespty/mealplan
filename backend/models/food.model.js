@@ -21,7 +21,10 @@ const foodSchema = new Schema({
     },
     nutritional_facts:{
         calories: {type: String, required:true},
-        total_fat: String,
+        total_fat: {
+            type:String,
+            default:0
+        },
         saturated_fat: String,
         polyunsaturated_fat: String,
         monounsaturated_fat: String,
@@ -29,12 +32,18 @@ const foodSchema = new Schema({
         cholesterol: String,
         sodium: String,
         potassium: String,
-        total_carbohydrates: String,
+        total_carbohydrates: {
+            type:String,
+            default:0
+        },
         dietary_fiber: String,
         sugars: String,
         added_sugars: String,
         sugar_alcohols: String,
-        protein: String,
+        protein: {
+            type:String,
+            default:0
+        },
         vitamin_A: String,
         vitamin_C: String,
         vitamin_D: String,
@@ -45,6 +54,10 @@ const foodSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Users",
         required:true
+    },
+    isMeal:{
+        type: Boolean,
+        default: false
     }
 })
 

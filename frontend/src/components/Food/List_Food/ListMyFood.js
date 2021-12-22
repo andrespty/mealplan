@@ -3,7 +3,7 @@ import { Box, Button, Flex, Spacer, CheckboxGroup, Checkbox } from '@chakra-ui/r
 import useListMyFood from './useListMyFood'
 import { UserContext } from '../../../App'
 import SearchInput from '../../Inputs/SearchInput'
-import FoodCard from './FoodCard'
+import FoodCard from '../../Cards/FoodCard'
 import WaitLoading from '../../../utils/WaitLoading'
 import { MealContext } from '../../Create_Meal/CreateMeal'
 

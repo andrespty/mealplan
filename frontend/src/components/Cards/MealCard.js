@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text, Flex, Spacer, Badge } from '@chakra-ui/react'
-import { get_calories } from '../../../utils/ConversionFunctions'
+import { get_calories } from '../../utils/ConversionFunctions'
 
 function MealCard({ meal }) {
 
@@ -36,12 +36,6 @@ function MealCard({ meal }) {
                 <Spacer/>
                 <Text fontWeight={'medium'} >{calories.toFixed(1)}</Text>
             </Flex>
-
-            {/* {
-                meal.recipe.map((food, key) => (
-                    <Text key={key} >{food.food.name}</Text>
-                ))
-            } */}
 
         </Box>
     )

@@ -5,7 +5,7 @@ import CreateMeal from '../../components/Create_Meal/CreateMeal'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import useMealPrep from './useMealPrep'
-import ListMeals from '../../components/Meals/List_Meals/ListMeals'
+import MealFoodMenu from '../../components/Meals/Meal_Food_Menu/MealFoodMenu'
 import WeeklyBoard from '../../components/Board/WeeklyBoard'
 
 function MealPrep() {
@@ -27,12 +27,12 @@ function MealPrep() {
             <DndProvider backend={HTML5Backend}>
             <Grid templateColumns='repeat(5, 1fr)' gap={1} >
 
-                <GridItem colSpan={4}>
+                <GridItem colSpan={{md:5, lg:4}}>
                     <WeeklyBoard />
                 </GridItem>
 
-                <GridItem colSpan={1}>
-                    <ListMeals />
+                <GridItem colSpan={1} display={{md:'none', lg:'inherit'}} >
+                    <MealFoodMenu />
                 </GridItem>
 
             </Grid>

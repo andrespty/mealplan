@@ -1,14 +1,13 @@
 import React from 'react'
 import { Box, Tabs, Tab, TabList, TabPanel, TabPanels } from '@chakra-ui/react'
-import ListMyMeals from './ListMyMeals'
+import ListMyMeals from '../List_Meals/ListMyMeals'
 import NeedsLogIn from '../../../utils/NeedsLogIn'
-import ListMyFood from './ListMyFoods'
+import ListMyFoods from '../List_Meals/ListMyFoods'
 
-function ListMeals() {
+function MealFoodMenu() {
 
     return (
         <Box>
-            
             <Tabs colorScheme={'primaryTabs'} variant='enclosed' isLazy={true} >
                 <TabList>
                     <Tab>My Meals</Tab>
@@ -24,20 +23,21 @@ function ListMeals() {
                     </TabPanel>
                     <TabPanel>
                         <NeedsLogIn>
-                            <ListMyFood />
+                            <ListMyFoods />
                         </NeedsLogIn>
                     </TabPanel>
                     <TabPanel>
                         <NeedsLogIn>
-                            <ListMyMeals type='all'  />
+                            <ListMyMeals type='all'  /> {/* Not yet finished */}
                         </NeedsLogIn>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-
             
+            
+
         </Box>
     )
 }
 
-export default React.memo(ListMeals)
+export default React.memo(MealFoodMenu)

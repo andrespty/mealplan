@@ -34,6 +34,10 @@ const mealSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:'Users',
         required:true
+    },
+    isMeal:{
+        type: Boolean,
+        default: true
     }
     
 })

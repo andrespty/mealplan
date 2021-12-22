@@ -11,6 +11,8 @@ const colors = ['#0088FE', '#00C49F', '#FF8042']
 
 function FoodDetails({ editFood, save_edit }) {
 
+    // editFood is the food object
+
     const { info, modify, save } = useFoodDetails(editFood, save_edit)
 
     return (
