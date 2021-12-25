@@ -1,16 +1,19 @@
 import React, { useContext, useState } from 'react'
-import { Box, useDisclosure } from '@chakra-ui/react'
-import useListMyFood from '../../Food/List_Food/useListMyFood'
+import { Box, useDisclosure, Skeleton, Stack } from '@chakra-ui/react'
 import FoodCard from '../../Cards/FoodCard'
 import DraggableObject from '../../../utils/DraggableObject'
 import { UserContext } from '../../../App'
 import DrawerLayout from '../../Drawer/DrawerLayout'
 import FoodDetails from '../../Food/Food_Details/FoodDetails'
 
+import useListMyFoods from './useListMyFoods'
+
 function ListMyFoods() {
 
+    console.log('LIST MY FOODS RENDER')
+
     const { user } = useContext(UserContext)
-    const { state, save_edit } = useListMyFood(user._id, [])
+    const { list, save_edit, isLoading } = useListMyFoods(user._id)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [ editing, setEditing ] = useState({})
 
@@ -21,21 +24,32 @@ function ListMyFoods() {
         onOpen()
     }
     const handle_save = (obj) => {
-        onClose()
         save_edit(obj)
+        onClose()
     }
 
     return (
         <React.Fragment>
         <Box>
+            
             {
-                state.list.map((food, key) => (
-                    <DraggableObject onClick={()=>handle_click(food)} key={key} object={food} >
+                !isLoading 
+                ?list.foods.map((food, key) => (
+                    <DraggableObject onClick={()=>handle_click(food)} key={key} index={key} object={food} >
                         <FoodCard food={food} />
                     </DraggableObject>
                 ))
+                :<Stack>
+                    {
+                        Array(3).fill(0).map((x, key) => (
+                            <Skeleton key={key} height='30px' />
+                        ))
+                    }
+                </Stack>
             }
+            
         </Box>
+        
 
         <DrawerLayout isOpen={isOpen} onClose={onClose} header='Details' placement='left' size='md' >
             <FoodDetails editFood={editing} save_edit={handle_save} />
