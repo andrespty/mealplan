@@ -5,8 +5,9 @@ import DraggableObject from '../../../utils/DraggableObject'
 import { UserContext } from '../../../App'
 import DrawerLayout from '../../Drawer/DrawerLayout'
 import FoodDetails from '../../Food/Food_Details/FoodDetails'
-
+import SkeletonList from '../../Loaders/SkeletonList'
 import useListMyFoods from './useListMyFoods'
+import { DragHandleIcon } from '@chakra-ui/icons'
 
 function ListMyFoods() {
 
@@ -32,22 +33,19 @@ function ListMyFoods() {
         <React.Fragment>
         <Box>
             
+            <SkeletonList isLoading={isLoading} nSkeleton={5} height={'50px'} />               
+          
+            <Skeleton isLoaded={!isLoading} fadeDuration={0.6} >
             {
-                !isLoading 
-                ?list.foods.map((food, key) => (
+                list.foods.map((food, key) => (
                     <DraggableObject onClick={()=>handle_click(food)} key={key} index={key} object={food} >
-                        <FoodCard food={food} />
+                        <FoodCard food={food} >
+                            <DragHandleIcon cursor='move' />
+                        </FoodCard>
                     </DraggableObject>
                 ))
-                :<Stack>
-                    {
-                        Array(3).fill(0).map((x, key) => (
-                            <Skeleton key={key} height='30px' />
-                        ))
-                    }
-                </Stack>
             }
-            
+            </Skeleton>
         </Box>
         
 
@@ -59,4 +57,4 @@ function ListMyFoods() {
     )
 }
 
-export default ListMyFoods
+export default React.memo(ListMyFoods)

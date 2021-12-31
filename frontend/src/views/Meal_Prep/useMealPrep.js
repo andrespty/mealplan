@@ -1,4 +1,5 @@
-import { useReducer, useState } from "react"
+import { useReducer, useState, useCallback } from "react"
+import { get_calories_from_food, get_calories_from_meal } from "../../utils/ConversionFunctions"
 
 const useMealPrep = () => {
     const [ week, setWeek ] = useReducer(reducer, initial_state)
@@ -9,8 +10,13 @@ const useMealPrep = () => {
         if ( obj.destination.droppableId === 'menu'){ return }
         const {index:indexSource} = obj.source
         const { droppableId:time_day } = obj.destination
+
+        // Find in which day and mealtime is been added
         let time = time_day.split('_')[0]
         let day = time_day.split('_')[1]
+        let calories = 0
+
+        // Finding in which list to search on
         let attribute = Object.keys(list).map((name, key) => {
             if (list[name].length > 0){
                 return name
@@ -20,11 +26,26 @@ const useMealPrep = () => {
             }
         })
         attribute = attribute.filter(att => att !== '')[0]
+        
+        // Find object in list
         let value = list[attribute][indexSource]
-        setWeek({day:day, time:time, value:value})
+        if (value.isMeal){
+            calories = get_calories_from_meal(value)
+        }
+        else {
+            calories = get_calories_from_food(value)
+        }
+        setWeek({day:day, time:time, value:value, calories:calories})
     }
 
-    return { week, setWeek, list, setList, handle_drag}
+    const remove = ({time,day,_id}) => {
+        console.log('Remove ' + time + ' ' + day + ` ${_id}`)
+        let newList = [...week[day][time]]
+        
+        setWeek({day:day, time:time, value:[]})
+        
+    }
+    return { week, list, setList, handle_drag, remove}
 }
 
 export default useMealPrep
@@ -39,7 +60,8 @@ const day = {
     breakfast:[],
     lunch:[],
     dinner:[],
-    snacks:[]
+    snacks:[],
+    calories:0
 }
 
 const initial_state = {
@@ -57,7 +79,8 @@ const reducer = (state, action) => {
         ...state,
         [action.day]:{
             ...state[action.day],
-            [action.time]: [...state[action.day][action.time], action.value]
+            [action.time]: [...state[action.day][action.time], action.value],
+            calories: parseFloat(state[action.day].calories) + parseFloat(action.calories)
         }
     }
 }

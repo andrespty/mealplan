@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Text, Flex, Spacer, Badge } from '@chakra-ui/react'
 import { get_calories } from '../../utils/ConversionFunctions'
 
-function MealCard({ meal }) {
+function MealCard({ meal, children }) {
 
     let calories = 0
     meal.recipe.forEach(food => {
@@ -18,8 +18,9 @@ function MealCard({ meal }) {
     })
 
     return (
-        <Box maxW='sm' borderWidth='1px' borderRadius={5} m={2} px={3} py={2} >
-
+        <Flex alignItems={'center'} maxW='sm' borderWidth='1px' borderRadius={5} m={2} py={2} px={2} >
+            {children}
+            <Box mx={2}>
             <Badge colorScheme={'primaryTabs'} >{meal.recipe.length} Ingredients</Badge>
 
             <Flex flexDir={'row'}>
@@ -36,8 +37,9 @@ function MealCard({ meal }) {
                 <Spacer/>
                 <Text fontWeight={'medium'} >{calories.toFixed(1)}</Text>
             </Flex>
+            </Box>
 
-        </Box>
+        </Flex>
     )
 }
 

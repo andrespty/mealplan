@@ -38,7 +38,7 @@ const useLoginSignup = (isLogIn) => {
                 if (res.success){
                     console.log('success')
                     localStorage.setItem('token', res.token)
-                    setUser({type:'login', user:res.user})
+                    setUser({type:'login', user:{...res.user, isLoggedIn:true}})
                     navigate('/')
                 }
                 else{

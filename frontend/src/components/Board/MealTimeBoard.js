@@ -1,36 +1,16 @@
-import React, { useContext } from 'react'
-import { MealPrepContext } from '../../views/Meal_Prep/MealPrep'
+import React from 'react'
 import { Box, Text, Spacer, IconButton, Flex } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { get_calories } from '../../utils/ConversionFunctions'
 import BoardCardCondensed from '../Cards/BoardCardCondensed'
 
 import { Droppable } from 'react-beautiful-dnd'
-// import { useDrop } from 'react-dnd'
 
-function MealTimeBoard( { time, day }) {
+function MealTimeBoard( { time, day, list, remove }) {
 
-    const { week, setWeek }  = useContext(MealPrepContext)
-
-    // const [{isOver}, drop ] = useDrop(() => ({
-    //     accept:'object',
-    //     drop:(item) => dropObject(item),
-    //     collect: (monitor) => ({
-    //         isOver: !!monitor.isOver(),
-    //       }),
-    // }))
-
-    // const dropObject = (object) => {
-    //     setWeek({
-    //         day:day, 
-    //         time: time.toLowerCase(),
-    //         value:object
-    //     })
-    // }
-
+    console.log(`Rendering: ${time} ${day}`)
 
     return (
-        // <Box minH={100} p={1} ref={drop} style={{opacity: isOver ? 0.5 : 1}}>
         <Droppable droppableId={`${time.toLowerCase()}_${day}`} >
         {
             (provided) => (
@@ -38,12 +18,14 @@ function MealTimeBoard( { time, day }) {
                     <Flex>
                         <Text fontSize='sm'>{time}</Text>
                         <Spacer />
-                        <IconButton size='xs' variant='ghost' icon={<AddIcon />} />
+
+                        <Text display={{sm:'none', lg:'inherit'}} >Cal</Text>
+                        <IconButton display={{sm:'inherit', lg:'none'}} size='xs' variant='ghost' icon={<AddIcon />} />
+                        
                     </Flex>
                     
                     {
-                        week[day][time.toLowerCase()].map((meal, key) => {
-                            console.log(meal)
+                        list.map((meal, key) => {
                             if (meal.hasOwnProperty('recipe')){
                                 let calories = 0
                                 meal.recipe.forEach(food => {
@@ -57,10 +39,10 @@ function MealTimeBoard( { time, day }) {
                                         og_serv_unit:   food.food.serving_size.serving_unit,
                                     })
                                 })
-                                return <BoardCardCondensed meal={meal} calories={calories.toFixed(0)} key={key} />
+                                return <BoardCardCondensed time={time.toLowerCase()} day={day} meal={meal} calories={calories.toFixed(0)} key={key} remove={remove} />
                             }
                             else {
-                                return <BoardCardCondensed food={meal} calories={meal.nutritional_facts.calories} key={key} />
+                                return <BoardCardCondensed time={time.toLowerCase()} day={day} food={meal} calories={meal.nutritional_facts.calories} key={key} remove={remove} />
                             }
                         })
                     }

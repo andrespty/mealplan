@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from "react"
-import { MealPrepContext } from "../../../views/Meal_Prep/MealPrep"
+import { ListMealContext } from "../../../views/Meal_Prep/MealPrep"
 import { get_my_food } from "../../../utils/Fetch_Functions/Food"
 
 const useListMyFoods = (userID) => {
     
-    const { list, setList } = useContext(MealPrepContext)
+    const { list, setList } = useContext(ListMealContext)
     const [ isLoading, setIsLoading ] = useState(true)
 
     useEffect(() => {
