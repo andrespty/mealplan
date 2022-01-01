@@ -1,64 +1,59 @@
 import React from 'react'
-import { useDisclosure, Box, Flex, Text, Popover, PopoverArrow, PopoverTrigger, PopoverContent, Button } from '@chakra-ui/react'
+import { useDisclosure, Box, Flex, Text, Popover, PopoverArrow, PopoverTrigger, PopoverContent, IconButton,Button,  ButtonGroup } from '@chakra-ui/react'
 import DrawerLayout from '../Drawer/DrawerLayout'
 import FoodDetails from '../Food/Food_Details/FoodDetails'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 
 function BoardCardCondensed({ meal={},food={}, calories, remove, time, day }) {
 
     const  { isOpen, onClose, onOpen } = useDisclosure()
-
-    const get_id = () => {
+    const get_id = React.useCallback(() => {
         if (meal._id){
             return meal._id
         }
         else {
             return food._id
         }
-    }
-
+    }, [meal, food])
     return (
-        // <Popover trigger='click' size='sm' lazyBehavior={'unmount'} isLazy={true} >
-        //     <PopoverTrigger>
-        //         <Box borderWidth='1px' borderRadius={5} m={1} px={1} py={1} _hover={{opacity:0.5}} cursor={'pointer'}>
+        <Box borderWidth='1px' borderRadius={5} m={1} px={1} py={1} position={'relative'} >
 
-        //             <Flex flexDir={'row'} justifyContent={'space-between'}>
-        //                 <Text fontSize='xs' fontWeight='bold' isTruncated >{meal.name}{food.name}</Text>
-        //                 <Text fontWeight='medium' textAlign='right' fontSize={'xs'}>
-        //                     {calories}
-        //                 </Text>
-        //             </Flex>
-                    
-        //         </Box>
-        //     </PopoverTrigger>
-        //     <PopoverContent p={3}>
-        //         <PopoverArrow />
-                
-        //         <Flex flexDir={'row'} justifyContent={'space-between'} >
-        //             <Button isFullWidth mr={1} variant='primaryOutline' >Edit</Button>
-        //             <Button ml={1} size='md' variant='ghost' onClick={() => {remove({time:time, day:day, _id:get_id()}); onClose()}} >Delete</Button>
-        //         </Flex>
+            <ButtonGroup
+                size='xs'
+                position={'absolute'}
+                w='100%'
+                h='100%'
+                opacity={0}
+                top={0}
+                left={0}
+                _hover={{
+                    opacity:1,
+                    background:'gray.200',
+                    transition:'all 0.2s ease',
+                    transitionProperty:'opacity, background'
+                }}
+                transition={'all 0.2s ease'}
+                transitionProperty={'opacity, background'}
+                borderRadius={5}
+                variant='ghost'
+                alignContent={'center'}
+                alignItems={'center'}
+            >
+                <Button leftIcon={<EditIcon/>}>Edit</Button>
+                <IconButton icon={<DeleteIcon />} onClick={() => remove({time:time, day:day, _id:get_id()})} />
+            </ButtonGroup>
 
-        //         <DrawerLayout isOpen={isOpen} onClose={onClose}  >
-        //             <FoodDetails editFood={{_id:food._id, unit:food}}  />
-        //         </DrawerLayout>
-                
-        //     </PopoverContent>
-        // </Popover>
-        <Box borderWidth='1px' borderRadius={5} m={1} px={1} py={1} cursor={'pointer'} _hover={{opacity:0.5}} >
-            <Flex flexDir={'row'} justifyContent={'space-between'} _hover={{display:'none'}} >
+            <Flex flexDir={'row'} justifyContent={'space-between'} _hover={{opacity:0.5}}>
                 <Text fontSize='xs' fontWeight='bold' isTruncated >{meal.name}{food.name}</Text>
                 <Text fontWeight='medium' textAlign='right' fontSize={'xs'}>
                     {calories}
                 </Text>
             </Flex>
-            <Flex flexDir={'row'} justifyContent={'space-between'} >
-                <Text fontSize='xs' fontWeight='bold' isTruncated >Andres</Text>
-                <Text fontWeight='medium' textAlign='right' fontSize={'xs'}>
-                    Ho
-                </Text>
-            </Flex>
+
+
         </Box>
     )
 }
 
 export default React.memo(BoardCardCondensed)
+

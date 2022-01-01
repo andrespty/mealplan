@@ -1,6 +1,6 @@
 const convert = require('convert-units')
 
-export const get_calories = ({ attr, og_serv_unit, new_serv_unit, og_n_serv, new_n_serv, og_serv, new_serv }) => {
+export const get_calories_conversion = ({ attr, og_serv_unit, new_serv_unit, og_n_serv, new_n_serv, og_serv, new_serv }) => {
     let n_servings_ratio = new_n_serv / og_n_serv
     let servings_ratio = new_serv / og_serv
     let conversion = convert(1).from(new_serv_unit).to(og_serv_unit)
@@ -9,11 +9,17 @@ export const get_calories = ({ attr, og_serv_unit, new_serv_unit, og_n_serv, new
 }
 
 export const get_calories_from_meal = (meal) => {
-    console.log(meal)
     let calories = 0
     meal.recipe.forEach((food) => {
-        calories += parseFloat(food.food.nutritional_facts.calories)
-        console.log(calories)
+        calories += get_calories_conversion({
+            attr:           parseFloat(food.food.nutritional_facts.calories),
+            og_n_serv:      parseFloat(food.food.serving_size.number_of_servings),
+            og_serv:        parseFloat(food.food.serving_size.serving),
+            new_n_serv:     parseFloat(food.serving_size.number_of_servings),
+            new_serv:       parseFloat(food.serving_size.serving),
+            new_serv_unit:  food.serving_size.serving_unit,
+            og_serv_unit:   food.food.serving_size.serving_unit,
+        })
     })
     return calories
 }

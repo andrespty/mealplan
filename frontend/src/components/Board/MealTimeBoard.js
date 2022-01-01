@@ -1,12 +1,12 @@
 import React from 'react'
 import { Box, Text, Spacer, IconButton, Flex } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { get_calories } from '../../utils/ConversionFunctions'
+import { get_calories_from_meal } from '../../utils/ConversionFunctions'
 import BoardCardCondensed from '../Cards/BoardCardCondensed'
 
 import { Droppable } from 'react-beautiful-dnd'
 
-function MealTimeBoard( { time, day, list, remove }) {
+function MealTimeBoard( { time, day, meal, remove }) {
 
     console.log(`Rendering: ${time} ${day}`)
 
@@ -19,26 +19,15 @@ function MealTimeBoard( { time, day, list, remove }) {
                         <Text fontSize='sm'>{time}</Text>
                         <Spacer />
 
-                        <Text display={{sm:'none', lg:'inherit'}} >Cal</Text>
+                        <Text display={{sm:'none', lg:'inherit'}} fontWeight={'semibold'} >{meal.calories.toFixed(0)}</Text>
                         <IconButton display={{sm:'inherit', lg:'none'}} size='xs' variant='ghost' icon={<AddIcon />} />
                         
                     </Flex>
                     
                     {
-                        list.map((meal, key) => {
+                        meal.list.map((meal, key) => {
                             if (meal.hasOwnProperty('recipe')){
-                                let calories = 0
-                                meal.recipe.forEach(food => {
-                                    calories += get_calories({
-                                        attr:           parseFloat(food.food.nutritional_facts.calories),
-                                        og_n_serv:      parseFloat(food.food.serving_size.number_of_servings),
-                                        og_serv:        parseFloat(food.food.serving_size.serving),
-                                        new_n_serv:     parseFloat(food.serving_size.number_of_servings),
-                                        new_serv:       parseFloat(food.serving_size.serving),
-                                        new_serv_unit:  food.serving_size.serving_unit,
-                                        og_serv_unit:   food.food.serving_size.serving_unit,
-                                    })
-                                })
+                                let calories = get_calories_from_meal(meal)
                                 return <BoardCardCondensed time={time.toLowerCase()} day={day} meal={meal} calories={calories.toFixed(0)} key={key} remove={remove} />
                             }
                             else {
