@@ -4,7 +4,7 @@ import MealTimeBoard from './MealTimeBoard'
 
 const MEAL_TIMES = ['Breakfast', 'Lunch', 'Dinner', 'Snacks']
 
-function DailyBoard({ day, meals, remove }) {
+function DailyBoard({ day, meals, remove, save }) {
 
     // const { week, remove } = useContext(MealPrepContext)
     console.log(`Rendering: ${day.toUpperCase()}`)
@@ -24,7 +24,7 @@ function DailyBoard({ day, meals, remove }) {
                     MEAL_TIMES.map((time, key) => (
                         <React.Fragment key={key}>
                             <Divider/>
-                            <MealTimeBoard meal={meals[time.toLowerCase()]} time={time} day={day.toLowerCase()} remove={remove} />
+                            <MealTimeBoard meal={meals[time.toLowerCase()]} time={time} day={day.toLowerCase()} remove={remove} save={save} />
                         </React.Fragment>
                     ))
                 }

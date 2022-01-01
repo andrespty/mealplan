@@ -6,7 +6,7 @@ import BoardCardCondensed from '../Cards/BoardCardCondensed'
 
 import { Droppable } from 'react-beautiful-dnd'
 
-function MealTimeBoard( { time, day, meal, remove }) {
+function MealTimeBoard( { time, day, meal, remove, save }) {
 
     console.log(`Rendering: ${time} ${day}`)
 
@@ -28,10 +28,10 @@ function MealTimeBoard( { time, day, meal, remove }) {
                         meal.list.map((meal, key) => {
                             if (meal.hasOwnProperty('recipe')){
                                 let calories = get_calories_from_meal(meal)
-                                return <BoardCardCondensed time={time.toLowerCase()} day={day} meal={meal} calories={calories.toFixed(0)} key={key} remove={remove} />
+                                return <BoardCardCondensed time={time.toLowerCase()} day={day} meal={meal} calories={calories.toFixed(0)} key={key} remove={remove} save={save} />
                             }
                             else {
-                                return <BoardCardCondensed time={time.toLowerCase()} day={day} food={meal} calories={meal.nutritional_facts.calories} key={key} remove={remove} />
+                                return <BoardCardCondensed time={time.toLowerCase()} day={day} meal={meal} calories={meal.nutritional_facts.calories} key={key} remove={remove} save={save} />
                             }
                         })
                     }

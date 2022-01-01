@@ -11,7 +11,7 @@ function MealPrep() {
 
     const { onOpen, onClose, isOpen } = useDisclosure()
     
-    const { week, list, setList, handle_drag, remove } = useMealPrep()
+    const { week, list, setList, handle_drag, remove, save } = useMealPrep()
 
     console.log('RENDERING MEAL PREP')
 
@@ -31,7 +31,7 @@ function MealPrep() {
                 <Grid templateColumns='repeat(5, 1fr)' gap={1} >
 
                     <GridItem colSpan={{md:5, lg:4}}>
-                        <WeeklyBoard mealPrep={{ week, remove }} />
+                        <WeeklyBoard mealPrep={{ week, remove, save }} />
                     </GridItem>
 
                     <GridItem colSpan={1} display={{sm:'none', lg:'inherit'}} >

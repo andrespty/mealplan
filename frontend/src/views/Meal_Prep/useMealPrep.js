@@ -44,7 +44,14 @@ const useMealPrep = () => {
         setWeek({day:day, time:time, _id:_id, type:'remove'})
         
     },[])
-    return { week, list, setList, handle_drag, remove}
+
+    const save = useCallback(({time,day, obj}) => {
+        console.log('Save')
+        setWeek({day:day, time:time, obj:obj, type:'modify'})
+    }, [])
+
+
+    return { week, list, setList, handle_drag, remove, save}
 }
 
 export default useMealPrep
@@ -102,17 +109,50 @@ const reducer = (state, action) => {
                 obj_cal = get_calories_from_food(obj)
             }
 
-        return {
-            ...state,
-            [action.day]:{
-                ...state[action.day],
-                [action.time]: {
-                    list: list,
-                    calories: parseFloat(state[action.day][action.time].calories) - obj_cal
-                },
-                calories: parseFloat(state[action.day].calories) - obj_cal
+            return {
+                ...state,
+                [action.day]:{
+                    ...state[action.day],
+                    [action.time]: {
+                        list: list,
+                        calories: parseFloat(state[action.day][action.time].calories) - obj_cal
+                    },
+                    calories: parseFloat(state[action.day].calories) - obj_cal
+                }
             }
-        }
+
+        case 'modify':
+            console.log(action.obj)
+            let edit_list = [...state[action.day][action.time].list]
+            let indexx = edit_list.findIndex(obj => obj._id === action.obj._id)
+            let calories = parseFloat(state[action.day][action.time].calories) - parseFloat(get_calories_from_food(edit_list[indexx]))
+            let total_cal = parseFloat(state[action.day].calories) - parseFloat(get_calories_from_food(edit_list[indexx]))
+            edit_list[indexx] = {
+                ...edit_list[indexx],
+                serving_size:{
+                    ...edit_list[indexx].serving_size,
+                    ...action.obj.serving_size
+                },
+                nutritional_facts:{
+                    ...edit_list[indexx].nutritional_facts,
+                    ...action.obj.nutritional_facts
+                }
+            }
+            console.log(edit_list)
+            calories += parseFloat(get_calories_from_food(edit_list[indexx]))
+            total_cal += parseFloat(get_calories_from_food(edit_list[indexx]))
+
+            return {
+                ...state,
+                [action.day]:{
+                    ...state[action.day],
+                    [action.time]:{
+                        list:edit_list,
+                        calories: calories
+                    },
+                    calories: total_cal
+                }
+            }
 
         default:
             return initial_state

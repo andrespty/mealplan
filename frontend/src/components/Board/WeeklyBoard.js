@@ -7,7 +7,7 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 function WeeklyBoard({ mealPrep }) {
     // console.log('WEEKLY BOARD')
 
-    const { week, remove } = mealPrep
+    const { week, remove, save } = mealPrep
 
     return (
         <Box>
@@ -16,7 +16,7 @@ function WeeklyBoard({ mealPrep }) {
                 {
                     days.map((day, key) => (
                         <GridItem colSpan={1} key={key} >
-                            <DailyBoard day={day} meals={week[day.toLowerCase()]} remove={remove} />
+                            <DailyBoard day={day} meals={week[day.toLowerCase()]} remove={remove} save={save} />
                         </GridItem>
                     ))
                 }
