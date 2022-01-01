@@ -1,21 +1,20 @@
 import React from 'react'
-import { useDrag } from 'react-dnd'
+import { Draggable } from 'react-beautiful-dnd'
+
 import { Box } from '@chakra-ui/react'
 
-function DraggableObject( {children, object, onClick} ) {
-
-    const [{isDragging}, drag] = useDrag(() => ({
-        type: 'object',
-        item:{object:object},
-        collect: monitor => ({
-          isDragging: !!monitor.isDragging(),
-        }),
-      }))
+function DraggableObject( {children, object, onClick, index} ) {
 
     return (
-        <Box onClick={onClick} ref={drag} cursor={'move'} style={{opacity: isDragging ? 0.5 : 1}} >
-            { children }
-        </Box>
+      <Draggable draggableId={object.name} index={index} cursor={'pointer'} > 
+      {
+        (provided) => (
+          <Box onClick={onClick} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
+              { children }
+          </Box>
+        )
+      }
+      </Draggable>
     )
 }
 

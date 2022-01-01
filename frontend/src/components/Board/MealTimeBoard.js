@@ -1,65 +1,45 @@
-import React, { useContext } from 'react'
-import { MealPrepContext } from '../../views/Meal_Prep/MealPrep'
+import React from 'react'
 import { Box, Text, Spacer, IconButton, Flex } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { get_calories } from '../../utils/ConversionFunctions'
+import { get_calories_from_meal } from '../../utils/ConversionFunctions'
 import BoardCardCondensed from '../Cards/BoardCardCondensed'
-import { useDrop } from 'react-dnd'
 
-function MealTimeBoard( { time, day }) {
+import { Droppable } from 'react-beautiful-dnd'
 
-    const { week, setWeek }  = useContext(MealPrepContext)
+function MealTimeBoard( { time, day, meal, remove }) {
 
-    const [{isOver}, drop ] = useDrop(() => ({
-        accept:'object',
-        drop:(item) => dropObject(item.object),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-          }),
-    }))
-
-    const dropObject = (object) => {
-        console.log(object)
-        setWeek({
-            day:day, 
-            time: time.toLowerCase(),
-            value:object
-        })
-    }
-
+    console.log(`Rendering: ${time} ${day}`)
 
     return (
-        <Box minH={100} p={1} ref={drop} style={{opacity: isOver ? 0.5 : 1}}>
-            <Flex>
-                <Text fontSize='sm'>{time}</Text>
-                <Spacer />
-                <IconButton size='xs' variant='ghost' icon={<AddIcon />} />
-            </Flex>
-            
-            {
-                week[day][time.toLowerCase()].map((meal, key) => {
-                    if (meal.hasOwnProperty('recipe')){
-                        let calories = 0
-                        meal.recipe.forEach(food => {
-                            calories += get_calories({
-                                attr:           parseFloat(food.food.nutritional_facts.calories),
-                                og_n_serv:      parseFloat(food.food.serving_size.number_of_servings),
-                                og_serv:        parseFloat(food.food.serving_size.serving),
-                                new_n_serv:     parseFloat(food.serving_size.number_of_servings),
-                                new_serv:       parseFloat(food.serving_size.serving),
-                                new_serv_unit:  food.serving_size.serving_unit,
-                                og_serv_unit:   food.food.serving_size.serving_unit,
-                            })
+        <Droppable droppableId={`${time.toLowerCase()}_${day}`} >
+        {
+            (provided) => (
+                <Box minH={100} p={1} {...provided.droppableProps} ref={provided.innerRef}>
+                    <Flex>
+                        <Text fontSize='sm'>{time}</Text>
+                        <Spacer />
+
+                        <Text display={{sm:'none', lg:'inherit'}} fontWeight={'semibold'} >{meal.calories.toFixed(0)}</Text>
+                        <IconButton display={{sm:'inherit', lg:'none'}} size='xs' variant='ghost' icon={<AddIcon />} />
+                        
+                    </Flex>
+                    
+                    {
+                        meal.list.map((meal, key) => {
+                            if (meal.hasOwnProperty('recipe')){
+                                let calories = get_calories_from_meal(meal)
+                                return <BoardCardCondensed time={time.toLowerCase()} day={day} meal={meal} calories={calories.toFixed(0)} key={key} remove={remove} />
+                            }
+                            else {
+                                return <BoardCardCondensed time={time.toLowerCase()} day={day} food={meal} calories={meal.nutritional_facts.calories} key={key} remove={remove} />
+                            }
                         })
-                        return <BoardCardCondensed name={meal.name} calories={calories.toFixed(0)} key={key} />
                     }
-                    else {
-                        return <BoardCardCondensed name={meal.name} calories={meal.nutritional_facts.calories} key={key} />
-                    }
-                })
-            }
-                
-        </Box>
+                        
+                </Box>
+            )
+        }
+        </Droppable>
     )
 }
 

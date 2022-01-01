@@ -1,34 +1,36 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Box, Text, Divider,} from '@chakra-ui/react'
 import MealTimeBoard from './MealTimeBoard'
 
-function DailyBoard({ day }) {
+const MEAL_TIMES = ['Breakfast', 'Lunch', 'Dinner', 'Snacks']
 
-    return (
-        <Box borderWidth={1} borderRadius={5} >
+function DailyBoard({ day, meals, remove }) {
 
-            <Text textAlign={'center'} fontWeight={'semibold'} cursor={'pointer'}  >
-                {day}
-            </Text>
+    // const { week, remove } = useContext(MealPrepContext)
+    console.log(`Rendering: ${day.toUpperCase()}`)
 
-            <Divider />
+    return  (
+            <Box borderWidth={1} borderRadius={5} >
 
-            <MealTimeBoard time={'Breakfast'} day={day.toLowerCase()} />
+                <Text textAlign={'center'} fontWeight={'bold'} cursor={'pointer'}  >
+                    {day}
+                </Text>
 
-            <Divider/>
+                <Text textAlign={'center'} fontWeight={'semibold'} > 
+                    {meals.calories.toFixed(0)}
+                </Text>
 
-            <MealTimeBoard time={'Lunch'} day={day.toLowerCase()}  />
+                {
+                    MEAL_TIMES.map((time, key) => (
+                        <React.Fragment key={key}>
+                            <Divider/>
+                            <MealTimeBoard meal={meals[time.toLowerCase()]} time={time} day={day.toLowerCase()} remove={remove} />
+                        </React.Fragment>
+                    ))
+                }
 
-            <Divider/>
-
-            <MealTimeBoard time={'Dinner'} day={day.toLowerCase()} />
-            
-            <Divider/>
-
-            <MealTimeBoard time={'Snacks'} day={day.toLowerCase()} />
-
-        </Box>
-    )
+            </Box>
+        )
 }
 
 export default React.memo(DailyBoard)

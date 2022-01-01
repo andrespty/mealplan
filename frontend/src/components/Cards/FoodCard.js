@@ -15,7 +15,7 @@ function FoodCard({ food, handle_select, children }) {
                 
             <Flex w='100%'  alignItems='center' px={2} >
                 {children}
-                <Box mx={3}>
+                <Box mx={2}>
                     <Text size='lg' fontWeight='bold' >{food.name}</Text>
                     <Text fontSize='sm' color='gray.600' fontWeight='light' isTruncated >
                         {food.description}

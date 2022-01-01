@@ -1,18 +1,66 @@
-import { useReducer } from "react"
+import { useReducer, useState, useCallback } from "react"
+import { get_calories_from_food, get_calories_from_meal } from "../../utils/ConversionFunctions"
 
 const useMealPrep = () => {
     const [ week, setWeek ] = useReducer(reducer, initial_state)
+    const [ list, setList ] = useState(initial_list)
 
-    return { week, setWeek}
+    const handle_drag = (obj)=> {
+        if ( !obj.destination){ return }
+        if ( obj.destination.droppableId === 'menu'){ return }
+        const {index:indexSource} = obj.source
+        const { droppableId:time_day } = obj.destination
+
+        // Find in which day and mealtime is been added
+        let time = time_day.split('_')[0]
+        let day = time_day.split('_')[1]
+        let calories = 0
+
+        // Finding in which list to search on
+        let attribute = Object.keys(list).map((name, key) => {
+            if (list[name].length > 0){
+                return name
+            }
+            else{
+                return ''
+            }
+        })
+        attribute = attribute.filter(att => att !== '')[0]
+        
+        // Find object in list
+        let value = list[attribute][indexSource]
+        if (value.isMeal){
+            calories = get_calories_from_meal(value)
+        }
+        else {
+            calories = get_calories_from_food(value)
+        }
+        setWeek({day:day, time:time, value:value, calories:calories, type:'add'})
+    }
+
+    const remove = useCallback(({time,day,_id}) => {
+        console.log('Remove ' + time + ' ' + day + ` ${_id}`)
+    
+        setWeek({day:day, time:time, _id:_id, type:'remove'})
+        
+    },[])
+    return { week, list, setList, handle_drag, remove}
 }
 
 export default useMealPrep
 
+const initial_list = {
+    meals:[],
+    foods:[],
+    search:[]
+}
+
 const day = {
-    breakfast:[],
-    lunch:[],
-    dinner:[],
-    snacks:[]
+    breakfast:{calories:0, list:[]},
+    lunch:{calories:0, list:[]},
+    dinner:{calories:0, list:[]},
+    snacks:{calories:0, list:[]},
+    calories:0
 }
 
 const initial_state = {
@@ -26,11 +74,47 @@ const initial_state = {
 }
 
 const reducer = (state, action) => {
-    return {
-        ...state,
-        [action.day]:{
-            ...state[action.day],
-            [action.time]: [...state[action.day][action.time], action.value]
+    switch(action.type){
+
+        case 'add':
+            return {
+                ...state,
+                [action.day]:{
+                    ...state[action.day],
+                    [action.time]: {
+                        list:[...state[action.day][action.time].list, action.value],
+                        calories: parseFloat(state[action.day][action.time].calories) + parseFloat(action.calories)
+                    },
+                    calories: parseFloat(state[action.day].calories) + parseFloat(action.calories)
+                }
+            }
+        
+        case 'remove':
+            let list = [...state[action.day][action.time].list]
+            let index = list.findIndex((m) => m._id === action._id)
+            let obj = list.splice(index, 1)[0]
+            let obj_cal = 0
+            console.log(obj)
+            if (obj.isMeal){
+                obj_cal = get_calories_from_meal(obj)
+            }
+            else{
+                obj_cal = get_calories_from_food(obj)
+            }
+
+        return {
+            ...state,
+            [action.day]:{
+                ...state[action.day],
+                [action.time]: {
+                    list: list,
+                    calories: parseFloat(state[action.day][action.time].calories) - obj_cal
+                },
+                calories: parseFloat(state[action.day].calories) - obj_cal
+            }
         }
+
+        default:
+            return initial_state
     }
 }
