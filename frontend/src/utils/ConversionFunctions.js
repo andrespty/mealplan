@@ -28,6 +28,42 @@ export const get_calories_from_food = (food) => {
     return food.nutritional_facts.calories
 }
 
+export const get_macros_from_meal = (meal) => {
+    let protein = 0
+    let carbs = 0
+    let fat = 0
+    meal.recipe.forEach((food) => {
+        protein += get_calories_conversion({
+            attr:           parseFloat(food.food.nutritional_facts.protein),
+            og_n_serv:      parseFloat(food.food.serving_size.number_of_servings),
+            og_serv:        parseFloat(food.food.serving_size.serving),
+            new_n_serv:     parseFloat(food.serving_size.number_of_servings),
+            new_serv:       parseFloat(food.serving_size.serving),
+            new_serv_unit:  food.serving_size.serving_unit,
+            og_serv_unit:   food.food.serving_size.serving_unit,
+        })
+        carbs += get_calories_conversion({
+            attr:           parseFloat(food.food.nutritional_facts.total_carbohydrates),
+            og_n_serv:      parseFloat(food.food.serving_size.number_of_servings),
+            og_serv:        parseFloat(food.food.serving_size.serving),
+            new_n_serv:     parseFloat(food.serving_size.number_of_servings),
+            new_serv:       parseFloat(food.serving_size.serving),
+            new_serv_unit:  food.serving_size.serving_unit,
+            og_serv_unit:   food.food.serving_size.serving_unit,
+        })
+        fat += get_calories_conversion({
+            attr:           parseFloat(food.food.nutritional_facts.total_fat),
+            og_n_serv:      parseFloat(food.food.serving_size.number_of_servings),
+            og_serv:        parseFloat(food.food.serving_size.serving),
+            new_n_serv:     parseFloat(food.serving_size.number_of_servings),
+            new_serv:       parseFloat(food.serving_size.serving),
+            new_serv_unit:  food.serving_size.serving_unit,
+            og_serv_unit:   food.food.serving_size.serving_unit,
+        })
+    })
+    return { protein, carbs, fat}
+}
+
 // creator: "61985a8c39d3c84eb6a70a2a"
 // description: "This is the first meal."
 // isMeal: true

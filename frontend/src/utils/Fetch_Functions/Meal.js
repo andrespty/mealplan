@@ -13,6 +13,12 @@ export async function create_meal({ body }){
 
 export async function get_my_meals_list({ id }){
 
+    const response = await axios.get(`${fetch_url}/meals/user/${id}`)
+
+    return await response.data
+}
+
+export async function get_meal({id}){
     const response = await axios.get(`${fetch_url}/meals/${id}`)
 
     return await response.data

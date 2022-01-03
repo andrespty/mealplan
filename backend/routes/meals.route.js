@@ -14,8 +14,7 @@ router.route('/').get((request, response) => {
 })
 
 // Get all meals created by a user
-router.route('/:id').get((request, response) => {
-    console.log('hello')
+router.route('/user/:id').get((request, response) => {
     const { id } = request.params
     
     Meal.find({creator:id}).select('-__v').populate('recipe.food')
@@ -31,6 +30,14 @@ router.route('/').post(verifyJWT, (request, response) => {
     newMeal.save()
     .then(meal => response.status(200).json(meal))
     .catch(error => response.status(200).json({error: error}))
+})
+
+// Get Specific Meal
+router.route('/:id').get((request, response) => {
+    const { id } = request.params
+    Meal.findOne({_id:id}).select('-__v').populate('recipe.food')
+    .then(meal => response.json(meal))
+    .catch(error => response.status(400).json({error: error}))
 })
 
 module.exports = router
