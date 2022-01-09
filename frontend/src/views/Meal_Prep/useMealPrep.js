@@ -1,11 +1,12 @@
 import { useReducer, useState, useCallback } from "react"
-import { get_calories_from_food, get_calories_from_meal } from "../../utils/ConversionFunctions"
+import { get_calories_from_food, get_calories_from_meal, convert_food_with_serving_sizes } from "../../utils/ConversionFunctions"
 
 const useMealPrep = () => {
     const [ week, setWeek ] = useReducer(reducer, initial_state)
     const [ list, setList ] = useState(initial_list)
 
     const handle_drag = (obj)=> {
+        // Set Up
         if ( !obj.destination){ return }
         if ( obj.destination.droppableId === 'menu'){ return }
         const {index:indexSource} = obj.source
@@ -29,13 +30,20 @@ const useMealPrep = () => {
         
         // Find object in list
         let value = list[attribute][indexSource]
+        const isMeal = value.isMeal
         if (value.isMeal){
-            calories = get_calories_from_meal(value)
+            console.log(value)
+            let bar = value.recipe.map((food) => {
+                let newFood = convert_food_with_serving_sizes(food.food, food.serving_size)
+                calories += get_calories_from_food(newFood)
+                return newFood
+            })
+            value = bar
         }
         else {
             calories = get_calories_from_food(value)
         }
-        setWeek({day:day, time:time, value:value, calories:calories, type:'add'})
+        setWeek({day:day, time:time, value:value, calories:calories, type:'add', isMeal:isMeal})
     }
 
     const remove = useCallback(({time,day,_id}) => {
@@ -82,14 +90,14 @@ const initial_state = {
 
 const reducer = (state, action) => {
     switch(action.type){
-
         case 'add':
+            let newList = action.isMeal ? [...state[action.day][action.time].list, ...action.value] : [...state[action.day][action.time].list, action.value]
             return {
                 ...state,
                 [action.day]:{
                     ...state[action.day],
                     [action.time]: {
-                        list:[...state[action.day][action.time].list, action.value],
+                        list:newList,
                         calories: parseFloat(state[action.day][action.time].calories) + parseFloat(action.calories)
                     },
                     calories: parseFloat(state[action.day].calories) + parseFloat(action.calories)

@@ -35,7 +35,8 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
         let index = meal_info.recipe.findIndex(obj => obj._id === food_id)
         let unit = meal_info.recipe[index].serving_size.serving_unit
         let number = meal_info.recipe[index].serving_size.number_of_servings
-        setEditFood({_id: food_id, unit:unit, number: number })
+        let serving = meal_info.recipe[index].serving_size.serving
+        setEditFood({_id: food_id, unit:unit, number: number, serving:serving })
         detailsOnOpen()
     }
 

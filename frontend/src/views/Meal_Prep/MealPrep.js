@@ -22,7 +22,7 @@ function MealPrep() {
             <Flex alignItems='center' >
                 <Heading>Meal Prep</Heading>
                 <Spacer />
-                <Button variant='ghost' onClick={() => console.log(week)} >Log</Button>
+                {/* <Button variant='ghost' onClick={() => console.log(week)} >Log</Button> */}
                 <Button variant='primary' onClick={onOpen} >Create Meal</Button>
             </Flex>
 

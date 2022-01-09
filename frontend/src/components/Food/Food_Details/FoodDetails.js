@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Heading, Text, Divider, Flex, Spacer, Center, Select, Button } from '@chakra-ui/react'
+    import React from 'react'
+import { Box, Heading, Text, Divider, Flex, Spacer, Center, Select, Button, Input } from '@chakra-ui/react'
 import useFoodDetails from './useFoodDetails'
 import WaitLoading from '../../../utils/WaitLoading'
 import InputField from '../../Inputs/InputField'
@@ -52,13 +52,16 @@ function FoodDetails({ editFood, save_edit }) {
             <Flex direction='row' alignContent='space-between' mt={5}>
 
                 <InputField label='Serving Size' pr={2}>
-                    <Select value={info.inputs.unit} onChange={(e) => modify({unit:e.target.value})} >
-                        {
-                            info.serving_sizes.map((size, key) => (
-                                <option value={size} key={key}>1 {size}</option>
-                            ))
-                        }
-                    </Select>
+                    <Flex>
+                        <Input value={info.inputs.serving} onChange={e => modify({serving:e.target.value})} type={'number'} />
+                        <Select value={info.inputs.unit} onChange={(e) => modify({unit:e.target.value})} >
+                            {
+                                info.serving_sizes.map((size, key) => (
+                                    <option value={size} key={key}>{size}</option>
+                                ))
+                            }
+                        </Select>
+                    </Flex>
                 </InputField>
 
                 <Spacer />
@@ -69,6 +72,13 @@ function FoodDetails({ editFood, save_edit }) {
             </Flex>
 
             {/* will add the nutritional fact in the future */}
+            
+            <Box mt={3} >
+                <Heading size='md' >Nutritional Facts</Heading>
+                <Text>1 Serving: {info.food.serving_size.serving}{info.food.serving_size.serving_unit} </Text>
+
+
+            </Box>
 
         </WaitLoading>
     )

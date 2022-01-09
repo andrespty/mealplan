@@ -1,33 +1,36 @@
 import React from 'react'
 import { Box, Text, Flex, Spacer, Badge } from '@chakra-ui/react'
-import { get_calories_from_meal } from '../../utils/ConversionFunctions'
+import { get_calories_from_meal, get_macros_from_meal } from '../../utils/ConversionFunctions'
 
 function MealCard({ meal, children }) {
 
     let calories = get_calories_from_meal(meal)
+    const { protein, fat, carbs } = get_macros_from_meal(meal)
 
     return (
-        <Flex alignItems={'center'} maxW='sm' borderWidth='1px' borderRadius={5} m={2} py={2} px={2} >
+        <Flex alignItems={'center'} maxW='sm' borderWidth='1px' borderRadius={5} m={2} py={2} px={2}  >
             {children}
             <Box mx={2}>
-            <Badge colorScheme={'primaryTabs'} >{meal.recipe.length} Ingredients</Badge>
+            
+                <Badge colorScheme={'primaryTabs'} >{meal.recipe.length} Ingredients</Badge>
 
-            <Flex flexDir={'row'}>
-                <Box>
-                    <Text size='lg' fontWeight={'bold'}>{meal.name} </Text>
+            
+                <Box maxW={'250px'}>
+                    <Flex flexDir={'row'}>
+                        <Text size='lg' fontWeight={'bold'}>{meal.name} </Text>
+                        <Spacer/>
+                        <Text fontWeight={'medium'} >{calories.toFixed(1)}</Text>
+                    </Flex>
                     <Box fontSize='sm' color='gray.600' fontWeight={'light'} isTruncated>
-                    {
-                        meal.recipe.map((food, key) => (
-                            <span key={key}>{food.food.name} &bull; </span>
-                        ))
-                    }
+            
+                        <span>{protein.toFixed(0)}g protein &bull; </span>
+                        <span>{fat.toFixed(0)}g fat &bull; </span>
+                        <span>{carbs.toFixed(0)}g carbs </span>
+                       
                     </Box>
                 </Box>
-                <Spacer/>
-                <Text fontWeight={'medium'} >{calories.toFixed(1)}</Text>
-            </Flex>
+                
             </Box>
-
         </Flex>
     )
 }

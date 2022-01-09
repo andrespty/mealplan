@@ -8,7 +8,7 @@ function BoardCardCondensed({ meal={}, calories, remove, time, day, save }) {
 
     const  { isOpen, onClose, onOpen } = useDisclosure()
     const [ editing ] = useState({
-        _id:meal._id, unit:get_unit_number(meal).unit, number:get_unit_number(meal).number
+        _id:meal._id, unit:get_unit_number(meal).unit, number:get_unit_number(meal).number, serving:get_unit_number(meal).serving
     })
 
     const handle_click = () => {
@@ -78,6 +78,7 @@ const get_unit_number = (obj) => {
     else {
         let unit = obj.serving_size.serving_unit
         let number = obj.serving_size.number_of_servings
-        return {unit:unit, number:number}
+        let serving = obj.serving_size.serving
+        return {unit, number, serving}
     }
 }

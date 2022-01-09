@@ -24,6 +24,26 @@ export const get_calories_from_meal = (meal) => {
     return calories
 }
 
+export const convert_food_with_serving_sizes = (food, serving_size) => {
+    const x = ['calories', 'protein', 'total_carbohydrates', 'total_fat']
+    let updated_food = {...food}
+    updated_food.serving_size = serving_size
+    x.forEach(att => {
+        console.log(att)
+        updated_food.nutritional_facts[att] = get_calories_conversion({
+            attr:           parseFloat(food.nutritional_facts[att]),
+            og_n_serv:      parseFloat(food.serving_size.number_of_servings),
+            og_serv:        parseFloat(food.serving_size.serving),
+            og_serv_unit:   food.serving_size.serving_unit,
+            new_n_serv:     parseFloat(serving_size.number_of_servings),
+            new_serv:       parseFloat(serving_size.serving),
+            new_serv_unit:  serving_size.serving_unit,
+        })
+    })
+
+    return updated_food
+}
+
 export const get_calories_from_food = (food) => {
     return food.nutritional_facts.calories
 }

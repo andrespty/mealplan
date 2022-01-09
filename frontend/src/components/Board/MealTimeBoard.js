@@ -9,6 +9,7 @@ import { Droppable } from 'react-beautiful-dnd'
 function MealTimeBoard( { time, day, meal, remove, save }) {
 
     console.log(`Rendering: ${time} ${day}`)
+    console.log(meal)
 
     return (
         <Droppable droppableId={`${time.toLowerCase()}_${day}`} >

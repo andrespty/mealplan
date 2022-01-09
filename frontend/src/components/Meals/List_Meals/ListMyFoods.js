@@ -21,7 +21,8 @@ function ListMyFoods() {
     const handle_click = (object) => {
         let unit = object.serving_size.serving_unit
         let number = object.serving_size.number_of_servings
-        setEditing({_id:object._id, unit:unit, number:number})
+        let serving = object.serving_size.serving
+        setEditing({_id:object._id, unit:unit, number:number, serving:serving})
         onOpen()
     }
     const handle_save = (obj) => {
