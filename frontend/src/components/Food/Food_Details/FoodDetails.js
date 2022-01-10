@@ -1,7 +1,6 @@
-    import React from 'react'
+import React from 'react'
 import { Box, Heading, Text, Divider, Flex, Spacer, Center, Select, Button, Input } from '@chakra-ui/react'
 import useFoodDetails from './useFoodDetails'
-import WaitLoading from '../../../utils/WaitLoading'
 import InputField from '../../Inputs/InputField'
 import ChartPie from '../../Charts/ChartPie'
 import InputNumber from '../../Inputs/InputNumber'
@@ -16,7 +15,7 @@ function FoodDetails({ editFood, save_edit }) {
     const { info, modify, save } = useFoodDetails(editFood, save_edit)
 
     return (
-        <WaitLoading loading={false}>
+        <Box>
             <Flex direction='row' alignItems='center' >
                 <Box>
                     <Heading>{info.food.name}</Heading>
@@ -53,7 +52,7 @@ function FoodDetails({ editFood, save_edit }) {
 
                 <InputField label='Serving Size' pr={2}>
                     <Flex>
-                        <Input value={info.inputs.serving} onChange={e => modify({serving:e.target.value})} type={'number'} />
+                        <Input value={info.inputs.serving} onChange={e => modify({serving:e.target.value})} type={'number'} mr={1} />
                         <Select value={info.inputs.unit} onChange={(e) => modify({unit:e.target.value})} >
                             {
                                 info.serving_sizes.map((size, key) => (
@@ -79,8 +78,7 @@ function FoodDetails({ editFood, save_edit }) {
 
 
             </Box>
-
-        </WaitLoading>
+        </Box>
     )
 }
 
