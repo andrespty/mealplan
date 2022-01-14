@@ -24,11 +24,12 @@ export const get_calories_from_meal = (meal) => {
     return calories
 }
 
-export const convert_food_with_serving_sizes = ({food, serving_size}) => {
+export const convert_food_with_serving_sizes = (food, serving_size) => {
     const x = ['calories', 'protein', 'total_carbohydrates', 'total_fat']
     let updated_food = {...food}
     updated_food.serving_size = serving_size
     x.forEach(att => {
+        console.log(att)
         updated_food.nutritional_facts[att] = get_calories_conversion({
             attr:           parseFloat(food.nutritional_facts[att]),
             og_n_serv:      parseFloat(food.serving_size.number_of_servings),

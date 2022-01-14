@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import useCreateFood from './useCreateFood'
 import { Box, Input, Select, Flex, Stack, Heading, Divider, Button, Spacer, Collapse,
 Alert, AlertIcon, AlertTitle, AlertDescription, Text } from '@chakra-ui/react'
-import InputNumber from '../../Inputs/InputNumber'
-import InputField from '../../Inputs/InputField'
+import InputNumber from '../../../components/Inputs/InputNumber'
+import InputField from '../../../components/Inputs/InputField'
 import { UserContext } from '../../../App'
 
 function CreateFood() {

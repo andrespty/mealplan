@@ -10,40 +10,20 @@ const useMealDetails = (mealID) => {
         get_meal({id:mealID})
         .then(res => {
             let calories = get_calories_from_meal(res)
-            const { protein, fat, carbs } = get_macros_from_meal(res) // returns floats
+            const { protein, fat, carbs } = get_macros_from_meal(res)
+            console.log(protein)
+            console.log(carbs)
+            console.log(fat)
             setInfo({
                 ...res,
                 calories:calories.toFixed(0),
-                data:[
-                    {
-                        name:'Carbs',
-                        value: carbs * 4
-                    },
-                    {
-                        name:'Protein',
-                        value: protein * 4
-                    },
-                    {
-                        name:'Fat',
-                        value: fat * 9
-                    }
-                ],
-                macros: {protein, fat, carbs}
+                data:[]
             })
             console.log(res)
         })
     }, [])
     
-    const edit = () => {
-        setInfo(prevState => ({...prevState, isEditing:!prevState.isEditing}))
-    }
-
-    const remove = (id) => {
-        let recipe = [...info.recipe].filter((food) => food._id !== id)
-        setInfo(prevState => ({...prevState, recipe:recipe}))
-    }
-
-    return { info, edit, remove }
+    return { info }
 }
 
 const initial_state = {
@@ -53,10 +33,7 @@ const initial_state = {
     isMeal:Boolean,
     name:'',
     recipe:[],
-    _id:'',
-    data:[],
-    macros:{},
-    isEditing: false
+    _id:''
 }
 
 const recipe = {

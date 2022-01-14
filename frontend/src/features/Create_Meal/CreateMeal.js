@@ -1,13 +1,13 @@
 import React, { createContext } from 'react'
 import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure, Center, Alert, Collapse, AlertIcon, CloseButton } from '@chakra-ui/react'
-import InputField from '../Inputs/InputField'
+import InputField from '../../components/Inputs/InputField'
 import useCreateMeal from './useCreateMeal'
-import DrawerLayout from '../Drawer/DrawerLayout'
+import DrawerLayout from '../../components/Drawer/DrawerLayout'
 import FoodHub from '../Food/Food_Hub/FoodHub'
 import FoodCard from '../Cards/FoodCard'
 import FoodDetails from '../Food/Food_Details/FoodDetails'
-import ChartPie from '../Charts/ChartPie'
-import Macros from '../Macros/Macros'
+import ChartPie from '../../components/Charts/ChartPie'
+import Macros from '../../components/Macros/Macros'
 
 const colors = ['#0088FE', '#00C49F', '#FF8042']
 

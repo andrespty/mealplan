@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import { ListMealContext } from "../../../views/Meal_Prep/MealPrep"
+import { ListMealContext } from '../../Meal_Prep/MealPrep'
 import { get_my_food } from "../../../utils/Fetch_Functions/Food"
 
 const useListMyFoods = (userID) => {

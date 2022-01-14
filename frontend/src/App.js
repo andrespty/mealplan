@@ -1,10 +1,10 @@
 import React, { createContext } from 'react'
 import { Box } from '@chakra-ui/react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import MealPrep from './views/Meal_Prep/MealPrep'
+import MealPrep from './features/Meal_Prep/MealPrep'
 import Header from './components/Heading/Header'
 import useUser from './utils/useUser'
-import LoginSignup from './views/Login_Signup/LoginSignup'
+import LoginSignup from './features/Login_Signup/LoginSignup'
 
 export const fetch_url = 'http://localhost:5000'
 

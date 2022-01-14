@@ -1,10 +1,10 @@
 import React, { createContext } from 'react'
 import { Box, Button, Heading, Flex, Spacer, useDisclosure, Grid, GridItem } from '@chakra-ui/react'
 import DrawerLayout from '../../components/Drawer/DrawerLayout'
-import CreateMeal from '../../components/Create_Meal/CreateMeal'
+import CreateMeal from '../Create_Meal/CreateMeal'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import useMealPrep from './useMealPrep'
-import MealFoodMenu from '../../components/Meals/Meal_Food_Menu/MealFoodMenu'
+import MealFoodMenu from '../Meals/Meal_Food_Menu/MealFoodMenu'
 import WeeklyBoard from '../../components/Board/WeeklyBoard'
 
 function MealPrep() {
@@ -19,6 +19,7 @@ function MealPrep() {
         <ListMealContext.Provider value={{ list, setList }}>
 
         <Box mt={2} p={3}>
+            {/* Heading of Meal Prep */}
             <Flex alignItems='center' >
                 <Heading>Meal Prep</Heading>
                 <Spacer />
@@ -26,14 +27,16 @@ function MealPrep() {
                 <Button variant='primary' onClick={onOpen} >Create Meal</Button>
             </Flex>
 
-            {/* <DndProvider debugMode={true} backend={HTML5Backend}> */}
+            {/* Grid drag and drop with all meals and food */}
             <DragDropContext onDragEnd={handle_drag}  >
                 <Grid templateColumns='repeat(5, 1fr)' gap={1} >
 
+                    {/* Weekly Board view  */}
                     <GridItem colSpan={{md:5, lg:4}}>
                         <WeeklyBoard mealPrep={{ week, remove, save }} />
                     </GridItem>
 
+                    {/* List of meal and food  */}
                     <GridItem colSpan={1} display={{sm:'none', lg:'inherit'}} >
                         <Droppable droppableId='menu' >
                             {
@@ -49,8 +52,8 @@ function MealPrep() {
 
                 </Grid>
             </DragDropContext>
-            {/* </DndProvider> */}
 
+            {/* Create Meal Drawer View  */}
             <DrawerLayout isOpen={isOpen} onClose={onClose} header='Create a meal' placement='left' size='md' >
                 <CreateMeal />
             </DrawerLayout>

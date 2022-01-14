@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Heading, Text, Divider, Flex, Spacer, Center, Select, Button, Input } from '@chakra-ui/react'
 import useFoodDetails from './useFoodDetails'
-import InputField from '../../Inputs/InputField'
-import ChartPie from '../../Charts/ChartPie'
-import InputNumber from '../../Inputs/InputNumber'
-import Macros from '../../Macros/Macros'
+import InputField from '../../../components/Inputs/InputField'
+import ChartPie from '../../../components/Charts/ChartPie'
+import InputNumber from '../../../components/Inputs/InputNumber'
+import Macros from '../../../components/Macros/Macros'
 
 const colors = ['#0088FE', '#00C49F', '#FF8042']
 

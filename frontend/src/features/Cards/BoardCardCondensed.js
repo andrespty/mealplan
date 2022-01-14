@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDisclosure, Box, Flex, Text, IconButton,Button,  ButtonGroup } from '@chakra-ui/react'
-import DrawerLayout from '../Drawer/DrawerLayout'
+import DrawerLayout from '../../components/Drawer/DrawerLayout'
 import FoodDetails from '../Food/Food_Details/FoodDetails'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 

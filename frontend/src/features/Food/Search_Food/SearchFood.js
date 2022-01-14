@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
-import SearchInput from '../../Inputs/SearchInput'
+import SearchInput from '../../../components/Inputs/SearchInput'
 function SearchFood() {
     return (
         <Box>

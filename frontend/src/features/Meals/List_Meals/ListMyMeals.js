@@ -3,9 +3,9 @@ import { Box, Skeleton, useDisclosure } from '@chakra-ui/react'
 import DraggableObject from '../../../utils/DraggableObject'
 import MealCard from '../../Cards/MealCard'
 import useListMyMeals from './useListMyMeals'
-import SkeletonList from '../../Loaders/SkeletonList'
+import SkeletonList from '../../../components/Loaders/SkeletonList'
 import { DragHandleIcon } from '@chakra-ui/icons'
-import DrawerLayout from '../../Drawer/DrawerLayout'
+import DrawerLayout from '../../../components/Drawer/DrawerLayout'
 import MealDetails from '../Meal_Details/MealDetails'
 
 function ListMyMeals() {
