@@ -1,24 +1,25 @@
  import React from 'react'
 import { Box, Text, Flex, Spacer } from '@chakra-ui/react'
+import DataHandler from '../../containers/DataHandler'
 
-function FoodCard({ food, handle_select, children }) {
+function FoodDisplay({ food, handle_select }) {
+
+    const { _id, name, description, calories, serving_size } = food
 
     const handle_click = () => {
         if (handle_select){
-            handle_select(food._id)
+            handle_select(_id)
         }
     }
 
     return (
-        <Box my={2} p={1} borderWidth="1px" borderRadius={5} cursor='pointer' onClick={handle_click} >
-
-                
+        <>       
             <Flex w='100%'  alignItems='center' px={2} >
-                {children}
+
                 <Box mx={2}>
-                    <Text size='lg' fontWeight='bold' >{food.name}</Text>
+                    <Text size='lg' fontWeight='bold' >{name}</Text>
                     <Text fontSize='sm' color='gray.600' fontWeight='light' isTruncated >
-                        {food.description}
+                        {description}
                     </Text>
                 </Box>
 
@@ -26,17 +27,23 @@ function FoodCard({ food, handle_select, children }) {
 
                 <Box>
                     <Text fontWeight='medium' align='right'>
-                        {food.nutritional_facts.calories}
+                        {calories}
                     </Text>
                     <Text fontWeight='light' align='right' fontSize='sm' >
-                        {food.serving_size.serving * food.serving_size.number_of_servings} {food.serving_size.serving_unit}
+                        {serving_size}
                     </Text>
                 </Box>
                 
             </Flex>
+        </>
+    )
+}
 
-            
-        </Box>
+const FoodCard = ({ ...props }) => {
+    return (
+        <DataHandler resourceName={'food'} {...props} >
+            <FoodDisplay />
+        </DataHandler>
     )
 }
 

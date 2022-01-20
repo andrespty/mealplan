@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Text, Spacer, IconButton, Flex } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { get_calories_from_meal } from '../../utils/ConversionFunctions'
-import BoardCardCondensed from '../../features/Cards/BoardCardCondensed'
+import BoardCardCondensed from '../../features/Meal_Prep/BoardCardCondensed'
 
 import { Droppable } from 'react-beautiful-dnd'
 

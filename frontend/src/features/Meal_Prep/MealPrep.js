@@ -1,7 +1,7 @@
 import React, { createContext } from 'react'
 import { Box, Button, Heading, Flex, Spacer, useDisclosure, Grid, GridItem } from '@chakra-ui/react'
 import DrawerLayout from '../../components/Drawer/DrawerLayout'
-import CreateMeal from '../Create_Meal/CreateMeal'
+import CreateMeal from '../Meals/Create_Meal/CreateMeal'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import useMealPrep from './useMealPrep'
 import MealFoodMenu from '../Meals/Meal_Food_Menu/MealFoodMenu'

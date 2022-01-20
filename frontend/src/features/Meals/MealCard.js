@@ -9,7 +9,6 @@ function MealCard({ meal, children }) {
 
     return (
         <Flex alignItems={'center'} maxW='sm' borderWidth='1px' borderRadius={5} m={2} py={2} px={2}  >
-            {children}
             <Box mx={2}>
             
                 <Badge colorScheme={'primaryTabs'} >{meal.recipe.length} Ingredients</Badge>

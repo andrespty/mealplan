@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { Box, useDisclosure, Skeleton, Stack } from '@chakra-ui/react'
-import FoodCard from '../../Cards/FoodCard'
-import DraggableObject from '../../../utils/DraggableObject'
+import FoodCard from '../../Food/FoodCard'
 import { UserContext } from '../../../App'
 import DrawerLayout from '../../../components/Drawer/DrawerLayout'
 import FoodDetails from '../../Food/Food_Details/FoodDetails'
-import SkeletonList from '../../../components/Loaders/SkeletonList'
 import useListMyFoods from './useListMyFoods'
-import { DragHandleIcon } from '@chakra-ui/icons'
+import DraggableList from '../../../layouts/List/DraggableList'
+import LoadingData from '../../../containers/LoadingData'
 
 function ListMyFoods() {
 
@@ -32,30 +31,28 @@ function ListMyFoods() {
 
     return (
         <React.Fragment>
-        <Box>
-            
-            <SkeletonList isLoading={isLoading} nSkeleton={5} height={'50px'} />               
-          
-            <Skeleton isLoaded={!isLoading} fadeDuration={0.6} >
-            {
-                list.foods.map((food, key) => (
-                    <DraggableObject onClick={()=>handle_click(food)} key={key} index={key} object={food} >
-                        <FoodCard food={food} >
-                            <DragHandleIcon cursor='move' />
-                        </FoodCard>
-                    </DraggableObject>
-                ))
-            }
-            </Skeleton>
-        </Box>
-        
+            <Box>
 
-        <DrawerLayout isOpen={isOpen} onClose={onClose} header='Details' placement='left' size='md' >
-            <FoodDetails editFood={editing} save_edit={handle_save} />
-        </DrawerLayout>
+                <LoadingData isLoading={isLoading} >
+                    <DraggableList 
+                        isLoading={isLoading}
+                        items={list.foods} 
+                        resourceName={'obj'}
+                        itemComponent={FoodCard} 
+                        onClickItem={handle_click}
+                    />
+                </LoadingData>
+
+            </Box>
+            
+            <DrawerLayout isOpen={isOpen} onClose={onClose} header='Details' placement='left' size='md' >
+                <FoodDetails editFood={editing} save_edit={handle_save} />
+            </DrawerLayout>
 
         </React.Fragment>
     )
 }
+
+
 
 export default React.memo(ListMyFoods)
