@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Skeleton, Checkbox, Flex } from '@chakra-ui/react';
+import { Box, Skeleton, Checkbox, Flex, CheckboxGroup } from '@chakra-ui/react';
 
 function MultiSelectList({ 
     items, 
@@ -16,19 +16,22 @@ function MultiSelectList({
     return (
         <>
             <Skeleton isLoaded={!isLoading} >
-            {
-                items.map((item, key) => (
-                    <Flex
-                        direction={'row'}
-                        alignItems={'center'}
-                        cursor={'pointer'}
-                        onClick={() => handle_click(item)}
-                    >
-                        <Checkbox />
-                        <ItemComponent key={key} {...{ [resourceName]: item }} />
-                    </Flex>
-                ))
-            }
+                <CheckboxGroup>
+                {
+                    items.map((item, key) => (
+                        <Flex
+                            key={key}
+                            direction={'row'}
+                            alignItems={'center'}
+                            cursor={'pointer'}
+                            onClick={() => handle_click(item)}
+                        >
+                            <Checkbox colorScheme={'primary'} />
+                            <ItemComponent {...{ [resourceName]: item }} />
+                        </Flex>
+                    ))
+                }
+                </CheckboxGroup>
             </Skeleton>
         </>
     )

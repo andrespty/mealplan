@@ -54,8 +54,6 @@ function ListMyFood({ close }) {
         }))
     }
 
-    console.log(state.search)
-
     return (
         <Box>
 
