@@ -1,18 +1,37 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Skeleton, Checkbox, Flex } from '@chakra-ui/react';
 
-function MultiSelectList({ items, resourceName, onClickItem, itemComponent:ItemComponent }) {
-  return (
-      <>
-          {
-              items.map((item, key) => (
-                  <Box>
-                      <ItemComponent key={key} {...{ [resourceName]: item }} />
-                  </Box>
-              ))
-          }
-      </>
-  )
+function MultiSelectList({ 
+    items, 
+    resourceName, 
+    onClickItem, 
+    isLoading,
+    itemComponent:ItemComponent 
+}) {
+
+    const handle_click = (obj) => {
+        onClickItem(obj)
+    }
+
+    return (
+        <>
+            <Skeleton isLoaded={!isLoading} >
+            {
+                items.map((item, key) => (
+                    <Flex
+                        direction={'row'}
+                        alignItems={'center'}
+                        cursor={'pointer'}
+                        onClick={() => handle_click(item)}
+                    >
+                        <Checkbox />
+                        <ItemComponent key={key} {...{ [resourceName]: item }} />
+                    </Flex>
+                ))
+            }
+            </Skeleton>
+        </>
+    )
 }
 
 export default MultiSelectList;
