@@ -5,7 +5,8 @@ import { UserContext } from '../../../App'
 import SearchInput from '../../../components/Inputs/SearchInput'
 import FoodCard from '../FoodCard'
 import WaitLoading from '../../../utils/WaitLoading'
-import { MealContext } from '../../Create_Meal/CreateMeal'
+import { MealContext } from '../../Meals/Create_Meal/CreateMeal'
+import MultiSelectList from '../../../layouts/List/MultiSelectList'
 
 function ListMyFood({ close }) {
 
@@ -54,6 +55,8 @@ function ListMyFood({ close }) {
         }))
     }
 
+    console.log(state.search)
+
     return (
         <WaitLoading loading={state.loading}>
             <Box>
@@ -67,18 +70,16 @@ function ListMyFood({ close }) {
                 </Flex>
 
                 <CheckboxGroup onChange={handle_check} value={state.selected} >
-                {
+                {/* {
                     state.search.map((food, key) => (
-                        <React.Fragment key={key} >
-                        <FoodCard 
-                            food={food} 
-                            handle_select={handle_select} 
-                        >
-                            <Checkbox value={food._id} colorScheme={'primary'} />
-                        </FoodCard>
-                        </React.Fragment>
+                        <FoodCard resourceName='food' obj={food}  />
                     ))
-                }
+                } */}
+                <MultiSelectList 
+                    items={state.search}
+                    resourceName={'obj'}
+                    itemComponent={FoodCard}
+                />
                 </CheckboxGroup>
             </Box>
         </WaitLoading>

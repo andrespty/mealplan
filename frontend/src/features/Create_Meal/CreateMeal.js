@@ -8,6 +8,7 @@ import FoodCard from '../Food/FoodCard'
 import FoodDetails from '../Food/Food_Details/FoodDetails'
 import ChartPie from '../../components/Charts/ChartPie'
 import Macros from '../../components/Macros/Macros'
+import RegularList from '../../layouts/List/RegularList'
 
 const colors = ['#0088FE', '#00C49F', '#FF8042']
 
@@ -18,7 +19,7 @@ function CreateMeal() {
     
     const { meal_info, setMealInfo, create_meal, editFood, save_edit, open_details } = useCreateMeal(detailsClose, detailsOnOpen)
 
-    console.log('Render CREATE MEAL')
+    console.log(meal_info)
     
     return (
         <Box>
@@ -84,11 +85,17 @@ function CreateMeal() {
 
                 <Divider />
 
-                {
+                {/* {
                     meal_info.recipe.map((food, key) => (
                         <FoodCard food={food} key={key} handle_select={open_details} />
                     ))
-                }
+                } */}
+                <RegularList 
+                    items={meal_info.recipe}
+                    resourceName={'food'}
+                    itemComponent={FoodCard}
+                    onClickItem={open_details}
+                />
 
 
                 {/* Drawers  */}

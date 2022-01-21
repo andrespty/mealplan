@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Box, useDisclosure, Skeleton, Stack } from '@chakra-ui/react'
+import { Box, useDisclosure } from '@chakra-ui/react'
 import FoodCard from '../../Food/FoodCard'
 import { UserContext } from '../../../App'
 import DrawerLayout from '../../../components/Drawer/DrawerLayout'

@@ -2,15 +2,9 @@
 import { Box, Text, Flex, Spacer } from '@chakra-ui/react'
 import DataHandler from '../../containers/DataHandler'
 
-function FoodDisplay({ food, handle_select }) {
+function FoodDisplay({ food }) {
 
-    const { _id, name, description, calories, serving_size } = food
-
-    const handle_click = () => {
-        if (handle_select){
-            handle_select(_id)
-        }
-    }
+    const { name, description, calories, serving_size } = food
 
     return (
         <>       

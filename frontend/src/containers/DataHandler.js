@@ -3,7 +3,7 @@ import { get_calories_from_food } from '../utils/ConversionFunctions'
 
 function DataHandler({ children, obj, resourceName }) {
 
-    
+    console.log(obj)
 
     const calories = get_calories_from_food(obj)
     const serving_size = `${obj.serving_size.serving * obj.serving_size.number_of_servings} ${obj.serving_size.serving_unit}`

@@ -18,7 +18,7 @@ function CreateMeal() {
     
     const { meal_info, setMealInfo, create_meal, editFood, save_edit, open_details } = useCreateMeal(detailsClose, detailsOnOpen)
 
-    console.log('Render CREATE MEAL')
+    console.log('Rendering CREATE MEAL')
     
     return (
         <Box>

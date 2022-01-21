@@ -31,12 +31,13 @@ const useCreateMeal = (detailsClose, detailsOnOpen) => {
         .catch(err => console.log(err))
     }
 
-    const open_details = (food_id) => {
-        let index = meal_info.recipe.findIndex(obj => obj._id === food_id)
+    const open_details = (food) => {
+        const { _id } = food
+        let index = meal_info.recipe.findIndex(obj => obj._id === _id)
         let unit = meal_info.recipe[index].serving_size.serving_unit
         let number = meal_info.recipe[index].serving_size.number_of_servings
         let serving = meal_info.recipe[index].serving_size.serving
-        setEditFood({_id: food_id, unit:unit, number: number, serving:serving })
+        setEditFood({_id: _id, unit:unit, number: number, serving:serving })
         detailsOnOpen()
     }
 

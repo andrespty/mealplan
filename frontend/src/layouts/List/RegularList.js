@@ -1,11 +1,14 @@
 import React from 'react'
+import { Box } from '@chakra-ui/react'
 
-function RegularList({ items, resourceName, itemComponent: ItemComponent }) {
+function RegularList({ items, resourceName, onClickItem, itemComponent: ItemComponent }) {
     return (
         <>
             {
                 items.map((item, key) => (
-                    <ItemComponent key={key} {...{ [resourceName]: item }}/>
+                    <Box onClick={() => onClickItem(item)} >
+                        <ItemComponent key={key} {...{ [resourceName]: item }}/>
+                    </Box>
                 ))
             }   
         </>
