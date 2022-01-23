@@ -14,16 +14,14 @@ function DataHandler({ children, obj, resourceName }) {
 
     return (
         <>
-
-            {
-                React.Children.map(children, child => {
-                    if (React.isValidElement(child)){
-                        return React.cloneElement(child, { [resourceName]: data_handled })
-                    }
-                    return child
-                })
-            }
-            
+        {
+            React.Children.map(children, child => {
+                if (React.isValidElement(child)){
+                    return React.cloneElement(child, { [resourceName]: data_handled })
+                }
+                return child
+            })
+        }   
         </>
     )
 }

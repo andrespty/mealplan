@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure, Center, Alert, Collapse, AlertIcon, CloseButton } from '@chakra-ui/react'
+import { Box, Heading, Button, Input, Divider, Text, Flex, Spacer, useDisclosure, Center } from '@chakra-ui/react'
 import InputField from '../../../components/Inputs/InputField'
 import useCreateMeal from './useCreateMeal'
 import DrawerLayout from '../../../components/Drawer/DrawerLayout'
@@ -8,6 +8,8 @@ import FoodCard from '../../Food/FoodCard'
 import FoodDetails from '../../Food/Food_Details/FoodDetails'
 import ChartPie from '../../../components/Charts/ChartPie'
 import Macros from '../../../components/Macros/Macros'
+import CollapseAlert from '../../../components/Alerts/CollapseAlert'
+import RegularList from '../../../layouts/List/RegularList'
 
 const colors = ['#0088FE', '#00C49F', '#FF8042']
 
@@ -16,7 +18,7 @@ function CreateMeal() {
     const { isOpen: detailsIsOpen, onClose: detailsClose, onOpen:detailsOnOpen } = useDisclosure()
     const { isOpen: addFoodIsOpen, onClose: addFoodClose, onOpen:addFoodOnOpen } = useDisclosure()
     
-    const { meal_info, setMealInfo, create_meal, editFood, save_edit, open_details } = useCreateMeal(detailsClose, detailsOnOpen)
+    const { meal_info, setMealInfo, create_meal, editFood, save_edit, open_details, add_food } = useCreateMeal(detailsClose, detailsOnOpen)
 
     console.log('Rendering CREATE MEAL')
     
@@ -24,17 +26,16 @@ function CreateMeal() {
         <Box>
             <MealContext.Provider value={{ meal_info, setMealInfo }} >
 
-                <Collapse in={meal_info.openAlert}>
-                    <Alert status={meal_info.createSuccess ? 'success' : 'error'} variant='left-accent' >
-                        <AlertIcon />
-                        {
-                            meal_info.createSuccess
+                <CollapseAlert 
+                    open={meal_info.openAlert}
+                    status={meal_info.createSuccess ? 'success' : 'error'}
+                    message={
+                        meal_info.createSuccess
                             ? 'Your meal was created successfully'
                             : 'An error happened'
-                        }
-                        <CloseButton position='absolute' right='8px' top='8px' onClick={() => setMealInfo({openAlert:false})}/>
-                    </Alert>
-                </Collapse>
+                    }
+                    close={() => setMealInfo({openAlert:false})}
+                />
 
                 <Button 
                     onClick={create_meal} 
@@ -78,22 +79,23 @@ function CreateMeal() {
                 <Flex direction='row' alignItems='center' my={2} >
                     <Text>Items List</Text>
                     <Spacer />
-                    <Button size='sm' onClick={() => setMealInfo({edit:true})} variant='primaryGhost'  mx={2}>Edit</Button>
+                    <Button size='sm' onClick={() => setMealInfo({edit:true})} variant='primaryGhost' mx={2}>Edit</Button>
                     <Button size='sm' onClick={addFoodOnOpen} variant='primaryOutline'>Add food</Button>
                 </Flex>
 
                 <Divider />
 
-                {
-                    meal_info.recipe.map((food, key) => (
-                        <FoodCard food={food} key={key} handle_select={open_details} />
-                    ))
-                }
-
+                <RegularList 
+                    items={meal_info.recipe}
+                    resourceName={'obj'}
+                    onClickItem={open_details}
+                    itemComponent={FoodCard}
+                    cursor={'pointer'}
+                />
 
                 {/* Drawers  */}
                 <DrawerLayout isOpen={addFoodIsOpen} onClose={addFoodClose} header='Foods' placement='left' size='md' >
-                    <FoodHub close={addFoodClose} />
+                    <FoodHub close={addFoodClose} addFood={add_food} />
                 </DrawerLayout>
 
                 <DrawerLayout isOpen={detailsIsOpen} onClose={detailsClose} header='Details' placement='left' size='md' >

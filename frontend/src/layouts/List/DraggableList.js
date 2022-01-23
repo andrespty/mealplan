@@ -1,6 +1,7 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { Box, Skeleton } from '@chakra-ui/react'
+import CardContainer from '../../containers/CardContainer'
 
 function DraggableList({ 
     items, 
@@ -21,10 +22,13 @@ function DraggableList({
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
-                                onClick={()=>onClickItem(item)}
                             >
-                                <ItemComponent {...{ [resourceName]: item }}/>
-                            </Box>  
+                                <CardContainer box={Box}
+                                    onClick={()=>onClickItem(item)}
+                                >
+                                    <ItemComponent {...{ [resourceName]: item }}/>
+                                </CardContainer>  
+                            </Box>
                         )
                     }
                     </Draggable>

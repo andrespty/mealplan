@@ -1,11 +1,11 @@
 import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Box } from "@chakra-ui/react"
-import ListMyFood from '../List_Food/ListMyFood'
+import AddMyFoods from '../Add_My_Foods/AddMyFoods'
 import SearchFood from '../Search_Food/SearchFood'
 import CreateFood from '../Create_Food/CreateFood'
 import NeedsLogIn from '../../../utils/NeedsLogIn'
 
-function FoodHub({ close }) {
+function FoodHub({ close, addFood }) {
     return (
         <Box>
 
@@ -20,7 +20,7 @@ function FoodHub({ close }) {
 
                     <TabPanel>
                         <NeedsLogIn>
-                            <ListMyFood close={close} />
+                            <AddMyFoods close={close} onAddFood={addFood} />
                         </NeedsLogIn>
                     </TabPanel>
 

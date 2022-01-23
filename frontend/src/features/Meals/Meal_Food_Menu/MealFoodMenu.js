@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Tabs, Tab, TabList, TabPanel, TabPanels } from '@chakra-ui/react'
 import ListMyMeals from '../List_Meals/ListMyMeals'
 import NeedsLogIn from '../../../utils/NeedsLogIn'
-import ListMyFoods from '../List_Meals/ListMyFoods'
+import ListMyFoods from '../../Food/List_My_Foods/ListMyFoods'
 
 function MealFoodMenu() {
 

@@ -1,34 +1,46 @@
 import React from 'react';
-import { Box, Skeleton, Checkbox, Flex, CheckboxGroup } from '@chakra-ui/react';
+import { Skeleton, Checkbox, Flex, CheckboxGroup } from '@chakra-ui/react';
+import CardContainer from '../../containers/CardContainer';
 
 function MultiSelectList({ 
     items, 
     resourceName, 
     onClickItem, 
     isLoading,
+    onChange,
+    selectedValues = [],
     itemComponent:ItemComponent 
 }) {
+    console.log(selectedValues)
+    const handle_click = (_id) => {
+        onChange(_id)
+    }
 
-    const handle_click = (obj) => {
-        onClickItem(obj)
+    const handle_checkbox_group = (list) => {
+        onChange(list)
     }
 
     return (
         <>
             <Skeleton isLoaded={!isLoading} >
-                <CheckboxGroup>
+                <CheckboxGroup 
+                    onChange={handle_checkbox_group} 
+                    value={selectedValues} 
+                    colorScheme={'primary'} 
+                >
                 {
                     items.map((item, key) => (
-                        <Flex
+                        <CardContainer
+                            box={Flex}
                             key={key}
-                            direction={'row'}
+                            cursor='pointer'
                             alignItems={'center'}
-                            cursor={'pointer'}
-                            onClick={() => handle_click(item)}
+                            onClick={() => handle_click(item._id)}
+                            pl={3}
                         >
-                            <Checkbox colorScheme={'primary'} />
-                            <ItemComponent {...{ [resourceName]: item }} />
-                        </Flex>
+                            <Checkbox isChecked={selectedValues.includes(item._id)} />
+                            <ItemComponent {...{ [resourceName]: item }} /> 
+                        </CardContainer>
                     ))
                 }
                 </CheckboxGroup>
@@ -38,3 +50,12 @@ function MultiSelectList({
 }
 
 export default MultiSelectList;
+
+
+const CheckboxItem = () => {
+    return (
+        <>
+
+        </>
+    )
+}

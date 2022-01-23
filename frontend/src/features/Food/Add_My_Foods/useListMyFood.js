@@ -69,7 +69,7 @@ const useListMyFood = (userID, selected_items) => {
     }
 
 
-    return { state, handle_search, setState, handle_select, save_edit }
+    return { state, handle_search, handle_select, save_edit }
 }
 
 export default useListMyFood
