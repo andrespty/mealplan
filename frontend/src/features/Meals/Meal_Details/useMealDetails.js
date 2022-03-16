@@ -17,7 +17,25 @@ const useMealDetails = (mealID) => {
             setInfo({
                 ...res,
                 calories:calories.toFixed(0),
-                data:[]
+                data:[
+                    {
+                        name:'Carbs',
+                        value: parseInt(carbs) * 4
+                    },
+                    {
+                        name:'Protein',
+                        value: parseInt(protein) * 4
+                    },
+                    {
+                        name:'Fat',
+                        value: parseInt(fat) * 9
+                    }
+                ],
+                nutritional_data:{
+                    protein:protein,
+                    total_fat: fat,
+                    total_carbohydrates:carbs
+                }
             })
             console.log(res)
         })
@@ -33,6 +51,8 @@ const initial_state = {
     isMeal:Boolean,
     name:'',
     recipe:[],
+    data:[],
+    nutritional_data:{},
     _id:''
 }
 

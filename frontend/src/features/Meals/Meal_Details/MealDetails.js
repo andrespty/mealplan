@@ -27,16 +27,16 @@ function MealDetails({ mealID }) {
                     {info.calories} Cal
                 </Text>
 
-                {/* <Center>
+                <Center>
                     <ChartPie data={info.data} size={80} colors={colors} />
-                </Center> */}
+                </Center>
                 
-                {/* <Macros 
+                <Macros 
                     protein={info.nutritional_data.protein}
                     carbs={info.nutritional_data.total_carbohydrates}
                     fat={info.nutritional_data.total_fat}
                     colors={colors}
-                /> */}
+                />
             </Box>
             
             <Flex>

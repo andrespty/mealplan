@@ -28,7 +28,7 @@ function ListMyFoods() {
         save_edit(obj)
         onClose()
     }
-
+    console.log(list.foods)
     return (
         <React.Fragment>
             <Box>

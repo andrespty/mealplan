@@ -33,9 +33,6 @@ function MealFoodMenu() {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-            
-            
-
         </Box>
     )
 }

@@ -24,7 +24,7 @@ function NeedsLogIn({ children }) {
             <Center h='50vh'>
                 <Stack>
                     <Text>Please Log In</Text>
-                    <Button colorScheme='green' onClick={redirect} >Log In</Button>
+                    <Button variant='primary' onClick={redirect}> Log In </Button>
                 </Stack>
             </Center>
         )
